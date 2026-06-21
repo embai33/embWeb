@@ -1,0 +1,9 @@
+{
+  "name": "Emilio Monte Boquet",
+  "short_name": "EMB",
+  "icons": [{ "src": "EMB_Dibujo_Peq.png", "sizes": "any", "type": "image/png" }],
+  "start_url": "index.html",
+  "display": "standalone",
+  "background_color": "#1a5276",
+  "theme_color": "#1a5276"
+}
