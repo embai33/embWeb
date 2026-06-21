@@ -3,6 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="EMB">
+  <link rel="apple-touch-icon" href="../EMB_Dibujo_Peq.png">
+  <link rel="manifest" href="../manifest.json">
   <title>CV — Emilio Monte Boquet</title>
   <style>
 
@@ -39,8 +44,7 @@
     }
     header h1 { font-size: 1.2rem; font-weight: 600; }
     header .subtitle { font-size: 0.8rem; opacity: 0.8; }
-    .btn-info {
-      margin-left: auto;
+    .btn-home, .btn-info {
       flex-shrink: 0;
       background: rgba(255,255,255,0.18);
       border: 1px solid rgba(255,255,255,0.35);
@@ -49,8 +53,11 @@
       border-radius: var(--radius);
       cursor: pointer;
       font-size: 0.85rem;
+      transition: background 0.2s;
+      text-decoration: none;
     }
-    .btn-info:hover { background: rgba(255,255,255,0.3); }
+    .btn-home { margin-left: auto; }
+    .btn-home:hover, .btn-info:hover { background: rgba(255,255,255,0.3); }
     .container { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
 
     /* Profile */
@@ -288,6 +295,7 @@
     <span class="subtitle">Emilio Monte Boquet</span>
     <div class="header-updated" id="last-updated"></div>
   </div>
+  <a href="../index.html" class="btn-home">⌂ Inicio</a>
   <button class="btn-info" onclick="toggleModal(true)">ℹ Acerca de</button>
 </header>
 
