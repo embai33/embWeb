@@ -1,0 +1,680 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <title>🧠 Recursos de Inteligencia Artificial</title>
+  <style>
+    :root {
+      --azul:       #1a5276;
+      --azul-claro: #2980b9;
+      --gris-fondo: #f4f6f9;
+      --gris-borde: #dce1e8;
+      --blanco:     #ffffff;
+      --texto:      #2c3e50;
+      --texto-sec:  #5d6d7e;
+      --verde:      #27ae60;
+      --morado:     #7d3c98;
+      --radius:     8px;
+    }
+
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--gris-fondo);
+      color: var(--texto);
+      line-height: 1.5;
+      -webkit-text-size-adjust: 100%;
+    }
+
+    /* ── Header ── */
+    header {
+      background: var(--azul);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    header h1 { font-size: 1.35rem; font-weight: 600; white-space: nowrap; }
+    header .subtitle { font-size: 0.82rem; opacity: 0.8; display: none; }
+    @media (min-width: 500px) { header .subtitle { display: inline; } }
+
+    .btn-info {
+      margin-left: auto;
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+    }
+    .btn-info:hover { background: rgba(255,255,255,0.3); }
+
+    /* ── Container ── */
+    .container {
+      max-width: 980px;
+      margin: 0 auto;
+      padding: 1.5rem;
+    }
+
+    /* ── Search bar ── */
+    .search-wrap {
+      background: var(--blanco);
+      padding: 1rem 1.25rem;
+      border-radius: var(--radius);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      margin-bottom: 1.25rem;
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+    }
+    .search-icon { font-size: 1rem; color: var(--texto-sec); flex-shrink: 0; }
+    .search-wrap input {
+      flex: 1;
+      border: none;
+      outline: none;
+      font-size: 0.95rem;
+      color: var(--texto);
+      background: transparent;
+    }
+    .search-wrap input::placeholder { color: var(--texto-sec); }
+    .btn-clear-search {
+      background: none;
+      border: none;
+      color: var(--texto-sec);
+      cursor: pointer;
+      font-size: 1rem;
+      padding: 0.1rem 0.3rem;
+      border-radius: 4px;
+      display: none;
+    }
+    .btn-clear-search:hover { color: var(--texto); }
+
+    /* ── Tabs ── */
+    .tabs-scroll {
+      margin-bottom: 1.5rem;
+    }
+    .tabs {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.4rem;
+    }
+    .tab {
+      padding: 0.3rem 0.85rem;
+      border-radius: 20px;
+      border: 1.5px solid var(--gris-borde);
+      background: var(--blanco);
+      color: var(--texto-sec);
+      font-size: 0.75rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: all 0.15s;
+      flex-shrink: 0;
+    }
+    .tab:hover { border-color: var(--azul-claro); color: var(--azul-claro); }
+    .tab.active { background: var(--azul); border-color: var(--azul); color: white; }
+
+    /* ── Stats ── */
+    .stats {
+      display: flex;
+      gap: 0.75rem;
+      margin-bottom: 1.5rem;
+      flex-wrap: wrap;
+    }
+    .stat {
+      background: var(--blanco);
+      padding: 0.35rem 0.9rem;
+      border-radius: 20px;
+      font-size: 0.78rem;
+      color: var(--texto-sec);
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+    }
+    .stat strong { color: var(--azul); font-weight: 700; }
+
+    /* ── Section ── */
+    .section { margin-bottom: 2rem; }
+    .section-hdr {
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      margin-bottom: 0.85rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 2px solid var(--gris-borde);
+    }
+    .section-hdr h2 {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: var(--azul);
+    }
+    .section-badge {
+      background: var(--gris-borde);
+      color: var(--texto-sec);
+      padding: 0.08rem 0.5rem;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 600;
+    }
+
+    /* ── Resource grid ── */
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(210px, 1fr));
+      gap: 0.6rem;
+    }
+
+    /* ── Resource card ── */
+    .card {
+      background: var(--blanco);
+      border-radius: var(--radius);
+      padding: 0.75rem 0.9rem;
+      box-shadow: 0 1px 3px rgba(0,0,0,0.06);
+      border-left: 3px solid var(--azul-claro);
+      display: flex;
+      align-items: center;
+      gap: 0.6rem;
+      text-decoration: none;
+      color: var(--texto);
+      transition: box-shadow 0.18s, transform 0.12s;
+      cursor: pointer;
+    }
+    .card:hover {
+      box-shadow: 0 4px 14px rgba(0,0,0,0.12);
+      transform: translateY(-1px);
+      text-decoration: none;
+    }
+    .card img {
+      width: 18px;
+      height: 18px;
+      border-radius: 3px;
+      flex-shrink: 0;
+      object-fit: contain;
+    }
+    .card-name {
+      font-size: 0.82rem;
+      font-weight: 500;
+      line-height: 1.3;
+      flex: 1;
+      color: var(--texto);
+    }
+    .card-arrow {
+      color: var(--gris-borde);
+      font-size: 0.75rem;
+      flex-shrink: 0;
+      transition: color 0.15s;
+    }
+    .card:hover .card-arrow { color: var(--azul-claro); }
+
+    /* Accent colors per section */
+    .acc-gpts   .card { border-left-color: var(--morado); }
+    .acc-proyec .card { border-left-color: var(--verde); }
+    .acc-evid   .card { border-left-color: #16a085; }
+    .acc-img    .card { border-left-color: #e67e22; }
+    .acc-video  .card { border-left-color: #e74c3c; }
+
+    /* ── No results ── */
+    .no-results {
+      text-align: center;
+      padding: 3rem 1rem;
+      color: var(--texto-sec);
+      font-size: 0.95rem;
+      display: none;
+    }
+
+    /* ── Hidden ── */
+    .hidden { display: none !important; }
+
+    /* ── Modal ── */
+    .modal-overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1000;
+      padding: 1rem;
+    }
+    .modal-overlay.hidden { display: none !important; }
+    .modal-box {
+      background: var(--blanco);
+      border-radius: var(--radius);
+      max-width: 440px;
+      width: 100%;
+      padding: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.22);
+    }
+    .modal-box h2 {
+      font-size: 1.1rem;
+      color: var(--azul);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+    .modal-box p {
+      font-size: 0.88rem;
+      color: var(--texto-sec);
+      margin-bottom: 0.75rem;
+      line-height: 1.6;
+    }
+    .disclaimer {
+      background: #fef9e7;
+      border-left: 3px solid #f1c40f;
+      padding: 0.6rem 0.8rem;
+      border-radius: 4px;
+      font-size: 0.8rem;
+      color: #7d6608;
+      margin-top: 0.5rem;
+    }
+    .modal-footer {
+      margin-top: 1.25rem;
+      padding-top: 1rem;
+      border-top: 1px solid var(--gris-borde);
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      font-size: 0.85rem;
+      color: var(--texto-sec);
+    }
+    .modal-footer a { color: var(--azul-claro); text-decoration: none; font-weight: 500; }
+    .modal-footer a:hover { text-decoration: underline; }
+    .btn-close {
+      background: var(--gris-borde);
+      border: none;
+      padding: 0.45rem 1.1rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.88rem;
+      color: var(--texto);
+      font-weight: 500;
+    }
+    .btn-close:hover { background: #c5ccd6; }
+
+    /* ── Responsive ── */
+    @media (max-width: 600px) {
+      header { padding: 0.75rem 1rem; }
+      header h1 { font-size: 1.05rem; }
+      .container { padding: 0.9rem; }
+      .grid { grid-template-columns: repeat(auto-fill, minmax(165px, 1fr)); gap: 0.5rem; }
+    }
+  </style>
+</head>
+<body>
+
+<header>
+  <div>
+    <h1>🧠 Recursos de IA</h1>
+    <span class="subtitle"> — Directorio personal</span>
+  </div>
+  <button class="btn-info" onclick="toggleModal(true)">ℹ Acerca de</button>
+</header>
+
+<div class="container">
+
+  <!-- Search -->
+  <div class="search-wrap">
+    <span class="search-icon">🔍</span>
+    <input type="text" id="searchInput" placeholder="Buscar herramienta o proyecto…" oninput="onSearch()">
+    <button class="btn-clear-search" id="btnClear" onclick="clearSearch()" title="Limpiar">✕</button>
+  </div>
+
+  <!-- Tabs -->
+  <div class="tabs-scroll">
+    <div class="tabs" id="tabs"></div>
+  </div>
+
+  <!-- Stats -->
+  <div class="stats" id="stats"></div>
+
+  <!-- Sections -->
+  <div id="sections"></div>
+
+  <!-- No results -->
+  <div class="no-results" id="noResults">No se encontraron resultados para "<span id="searchTerm"></span>"</div>
+
+</div>
+
+<!-- Modal -->
+<div class="modal-overlay hidden" id="modal" onclick="if(event.target===this) toggleModal(false)">
+  <div class="modal-box">
+    <h2>🧠 Acerca de esta aplicación</h2>
+    <p>Directorio personal de herramientas y proyectos de Inteligencia Artificial, organizado por categorías: modelos de lenguaje, GPTs personalizados, proyectos propios, imágenes, vídeo, investigación científica, escritura, datos y más.</p>
+    <p>Haz clic en cualquier tarjeta para abrir el recurso en una nueva pestaña. Usa la barra de búsqueda o las pestañas para filtrar.</p>
+    <div class="disclaimer">Los recursos se incluyen con carácter exclusivamente informativo. Su inclusión no implica recomendación ni endorsement de sus servicios.</div>
+    <div class="modal-footer">
+      <span>Creado por <a href="https://www.linkedin.com/in/emilio-monte-boquet" target="_blank" rel="noopener">EMB</a></span>
+      <button class="btn-close" onclick="toggleModal(false)">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const DATA = [
+  {
+    id: 'llm', title: 'LLM', emoji: '🤖',
+    resources: [
+      { name: 'ChatGPT',            url: 'https://chat.openai.com' },
+      { name: 'Claude',             url: 'https://claude.ai/new' },
+      { name: 'Gemini',             url: 'https://gemini.google.com/app' },
+      { name: 'Perplexity',         url: 'https://www.perplexity.ai' },
+      { name: 'DeepSeek',           url: 'https://www.deepseek.com' },
+      { name: 'Grok',               url: 'https://grok.com/' },
+      { name: 'Microsoft Copilot',  url: 'https://copilot.microsoft.com/' },
+      { name: 'NotebookLM',         url: 'https://notebooklm.google.com/' },
+      { name: 'Manus',              url: 'https://manus.im/app' },
+      { name: 'Genspark Super Agent', url: 'https://www.genspark.ai/' },
+      { name: 'Napkin AI',          url: 'https://www.napkin.ai/' },
+      { name: 'ChatGPT — Data Analyst', url: 'https://chatgpt.com/g/g-HMNcP6w7d-data-analyst' },
+    ]
+  },
+  {
+    id: 'gpts', title: 'Mis GPTs', emoji: '⚙️', accent: 'acc-gpts',
+    resources: [
+      { name: 'ConFHIA – Toolbox farmacéuticos hospital',        url: 'https://emiliomonteb.github.io/confhia/' },
+      { name: 'Tu Onco Farma',                                   url: 'https://chatgpt.com/g/g-D6XCXqFCM-tu-onco-farma' },
+      { name: 'Criterios STOPP-START',                           url: 'https://chatgpt.com/g/g-67c89b3a91608191bc1a8acc32fb36ee-criterios-stopp-start' },
+      { name: 'Lectura crítica — Ensayos Clínicos Aleatorizados', url: 'https://chatgpt.com/g/g-6851427dba0c8191befc20676345413a-lectura-critica-ensayos-clinicos-aleatorizados' },
+      { name: 'Lectura crítica — Estudios de Cohortes',          url: 'https://chatgpt.com/g/g-68505014977c81918c3cdca6010bc81f-lectura-critica-de-estudios-de-cohortes' },
+      { name: 'Lectura crítica — Casos y Controles',             url: 'https://chatgpt.com/g/g-68504ce8bcf88191bef5db11e5c913a0-lectura-critica-de-estudios-casos-y-controles' },
+      { name: 'Lectura crítica — Estudios Cualitativos',         url: 'https://chatgpt.com/g/g-685054a4d7b0819198c48d810db6cc77-lectura-critica-de-estudios-cualitativos' },
+      { name: 'Lectura crítica (CASPe) — Revisiones',            url: 'https://chatgpt.com/g/g-684f0c0c54ac8191b2282945293cfd92-lectura-critica-caspe-de-revisiones' },
+      { name: 'Lectura crítica — Evaluaciones Económicas',       url: 'https://chatgpt.com/g/g-685051ae71d88191a5bc618b51589758-lectura-critica-de-evaluaciones-economicas' },
+      { name: 'Simulador consulta AF',                           url: 'https://chatgpt.com/g/g-67b61c83a1ac8191b8d7a4450f4e216f-simulador-consulta-af' },
+      { name: 'Fichas técnicas de medicamentos para pacientes',   url: 'https://chatgpt.com/g/g-67cca269c0148191a4e96359b76af9e4-fichas-tecnicas-de-medicamentos-para-pacientes' },
+      { name: 'Asistente BD',                                    url: 'https://chatgpt.com/g/g-68c40139d06081919e39aa9d62436e9b-asistente-bd' },
+      { name: 'Indicadores NP',                                  url: 'https://chatgpt.com/g/g-68cbe90d8d688191a598ef2aad05065e-indicadores-np' },
+      { name: 'Indicadores UFPE',                                url: 'https://chatgpt.com/g/g-ioSRFSmDd-indicadores-ufpe' },
+      { name: 'Auditor GENESIS-MADRE',                           url: 'https://chatgpt.com/g/g-69ee4a03d4b881918512e28388924269-auditor-genesis-madre' },
+      { name: 'PromptCritic+',                                   url: 'https://chatgpt.com/g/g-697749c7b9d081919a53eb0bb22faaed-promptcritic' },
+      { name: 'AMA 11 Reference Linter',                         url: 'https://chatgpt.com/g/g-699eedaaa9748191a01e7e0dc40d96e4-ama-11-reference-linter' },
+      { name: 'eDruidAI',                                        url: 'https://chatgpt.com/g/g-WhNowHIkq-edruidai' },
+      { name: 'Normalización de nombres de medicamentos',        url: 'https://chatgpt.com/g/g-691a3654e8708191b004fc141ac58bee-normalizacion-de-nombres-de-medicamentos' },
+      { name: 'Constructor de Queries PubMed (ES)',              url: 'https://chatgpt.com/g/g-692ecf544d6c819186a3df0b4c022728-constructor-de-queries-pubmed-es' },
+    ]
+  },
+  {
+    id: 'proyectos', title: 'Mis proyectos', emoji: '🚀', accent: 'acc-proyec',
+    resources: [
+      { name: 'ConFHIA – Toolbox farmacéuticos hospital',      url: 'https://emiliomonteb.github.io/confhia/' },
+      { name: 'Dashboard de Medicamentos',                     url: 'https://emiliomonteb.github.io/InfoMedTx/' },
+      { name: 'FarmaMatch – Emparejamiento de Fármacos (TxCard)', url: 'https://emiliomonteb.github.io/FarmaMatch-TxCard/' },
+      { name: 'Guía de Intercambio Terapéutico – HUP La Fe',  url: 'https://emiliomonteb.github.io/GIT-La-Fe/' },
+      { name: 'Guía Práctica ICD – Hospital La Fe',            url: 'https://emiliomonteb.github.io/clostridioides/' },
+      { name: 'Test de Alfabetización en IA Generativa',       url: 'https://embai33.github.io/GLAT_Esp/' },
+      { name: 'Analizador de dispensaciones – IMID',           url: 'https://embai33.github.io/IndicadoresIMID/' },
+      { name: 'Vibe coding para dummies sanitarios',           url: 'https://embai33.github.io/Guia-vibecoding/' },
+      { name: 'Guía de ingeniería de prompts para LLM',        url: 'https://embai33.github.io/Guia-prompting/' },
+      { name: 'FarmaPalabra – Trasplante Cardíaco',            url: 'https://emiliomonteb.github.io/FarmaPalabra/' },
+      { name: 'Info Pacientes – Trasplante Cardíaco',          url: 'https://emiliomonteb.github.io/trasplante-cardiaco-pacientes/' },
+      { name: 'FarmaMatch – Juego de Emparejamiento',          url: 'https://emiliomonteb.github.io/FarmaMatch/' },
+      { name: 'Selector de Test Estadístico',                  url: 'https://emiliomonteb.github.io/Test-estad-stico/' },
+      { name: 'Innova Palabra',                                url: 'https://emiliomonteb.github.io/innovapalabra/' },
+      { name: 'Estratificación de Pacientes con IMID',         url: 'https://emiliomonteb.github.io/EstratificaIMID/' },
+      { name: 'Sistema de Gestión de Medicamentos',            url: 'https://embai33.github.io/InfoMed20/' },
+      { name: 'Normalización de Medicamentos – Hospital La Fe', url: 'https://embai33.github.io/Normalizador_medicamentos/' },
+      { name: 'HojaInfoPtes – Hojas Informativas',             url: 'https://embai33.github.io/HojaInfoPtes/' },
+      { name: 'CIMA – Consulta de Medicamentos',               url: 'https://embai33.github.io/App-BD-CIMA/' },
+      { name: 'Manejo Perioperatorio de Medicación Crónica',   url: 'https://embai33.github.io/Guia-perioperatorio/' },
+      { name: 'Test de Conocimientos – Trasplante Cardíaco',   url: 'https://emiliomonteb.github.io/Quiz-Trasplante-Cardiaco/' },
+      { name: 'Pasapalabra – Trasplante Cardíaco',             url: 'https://emiliomonteb.github.io/pasapalabra-TxCard/' },
+      { name: 'FarmaPalabra: Trasplante',                      url: 'https://embai33.github.io/farmapalabra/' },
+      { name: 'Lectura CríticAI',                              url: 'https://emiliomonteb.github.io/lecturacritica/' },
+      { name: 'II Jornadas IA Generativa – UB 2025',           url: 'https://emiliomonteb.github.io/JornadasUB2025/' },
+      { name: 'Medicamentos Termolábiles – Estabilidad',       url: 'https://embai33.github.io/termolabiles/' },
+      { name: 'Biosimilares – Hospital La Fe',                  url: 'https://embai33.github.io/BiosimilaresLaFe/' },
+      { name: 'Consulta de Antirretrovirales – España',        url: 'https://embai33.github.io/GuiaARV/' },
+      { name: 'Calculadora Índice BODE – EPOC',                url: 'https://embai33.github.io/BODE-Index/' },
+    ]
+  },
+  {
+    id: 'evidencia', title: 'Evidencia científica', emoji: '🔬', accent: 'acc-evid',
+    resources: [
+      { name: 'Consensus',               url: 'https://consensus.app/search/' },
+      { name: 'Research Rabbit',         url: 'https://researchrabbitapp.com/home' },
+      { name: 'Scite – AI for Research', url: 'https://scite.ai/' },
+      { name: 'Elicit',                  url: 'https://elicit.com/' },
+      { name: 'Semantic Scholar',        url: 'https://www.semanticscholar.org/' },
+      { name: 'SciSpace',                url: 'https://typeset.io/' },
+      { name: 'ChatPDF',                 url: 'https://www.chatpdf.com/' },
+      { name: 'Coral AI',                url: 'https://www.getcoralai.com/' },
+      { name: 'EvidenceHunt',            url: 'https://evidencehunt.com/' },
+      { name: 'Lumina',                  url: 'https://www.lumina-chat.com/' },
+      { name: 'OpenEvidence',            url: 'https://www.openevidence.com/' },
+      { name: 'System Pro',              url: 'https://pro.system.com/landing' },
+    ]
+  },
+  {
+    id: 'escritura', title: 'Mejora de la escritura', emoji: '✍️',
+    resources: [
+      { name: 'Grammarly',        url: 'https://www.grammarly.com/' },
+      { name: 'Trinka',           url: 'https://www.trinka.ai/es/' },
+      { name: 'Paperpal',         url: 'https://paperpal.com/home' },
+      { name: 'DeepL Write',      url: 'https://www.deepl.com/es/write' },
+      { name: 'QuillBot',         url: 'https://quillbot.com/' },
+      { name: 'BypassGPT',        url: 'https://bypassgpt.ai/' },
+      { name: 'AI Phrase Finder', url: 'https://aiphrasefinder.com/' },
+    ]
+  },
+  {
+    id: 'imagenes', title: 'Imágenes', emoji: '🖼️', accent: 'acc-img',
+    resources: [
+      { name: 'DALL·E 3',              url: 'https://openai.com/dall-e-3' },
+      { name: 'Adobe Firefly',         url: 'https://firefly.adobe.com' },
+      { name: 'Leonardo.Ai',           url: 'https://app.leonardo.ai/' },
+      { name: 'Ideogram',              url: 'https://ideogram.ai/t/explore' },
+      { name: 'Imagine.art',           url: 'https://www.imagine.art/' },
+      { name: 'OpenArt',               url: 'https://openart.ai/home' },
+      { name: 'Bing Image Creator',    url: 'https://www.bing.com/images/create' },
+      { name: 'Fooocus IA',            url: 'https://fooocus.one/es' },
+      { name: 'Clipdrop – Fondo',      url: 'https://clipdrop.co/remove-background' },
+      { name: 'Clipdrop – Swap',       url: 'https://clipdrop.co/swap' },
+      { name: 'Clipdrop – Cleanup',    url: 'https://clipdrop.co/cleanup' },
+    ]
+  },
+  {
+    id: 'video', title: 'Vídeo', emoji: '🎬', accent: 'acc-video',
+    resources: [
+      { name: 'HeyGen',              url: 'https://www.heygen.com/' },
+      { name: 'Luma Dream Machine',  url: 'https://lumalabs.ai/dream-machine' },
+      { name: 'Visla',               url: 'https://app.visla.us/home' },
+      { name: 'D-ID Creative Reality', url: 'https://www.d-id.com' },
+      { name: 'HappyScribe',         url: 'https://www.happyscribe.com/' },
+      { name: 'Animated Drawings',   url: 'https://sketch.metademolab.com/' },
+    ]
+  },
+  {
+    id: 'datos', title: 'Analítica de datos', emoji: '📊',
+    resources: [
+      { name: 'Julius AI',            url: 'https://julius.ai/' },
+      { name: 'ChatGPT – Data Analyst', url: 'https://chatgpt.com/g/g-HMNcP6w7d-data-analyst' },
+      { name: 'Wolfram Alpha',        url: 'https://www.wolframalpha.com/' },
+      { name: 'Kaggle',               url: 'https://www.kaggle.com/' },
+    ]
+  },
+  {
+    id: 'repositorios', title: 'Repositorios', emoji: '📦',
+    resources: [
+      { name: "There's An AI For That", url: 'https://theresanaiforthat.com' },
+      { name: 'Futurepedia',            url: 'https://www.futurepedia.io/' },
+      { name: 'Replicate',              url: 'https://replicate.com/explore' },
+      { name: 'Google AI Studio',       url: 'https://aistudio.google.com/prompts/new_chat' },
+      { name: 'La Encicloped.IA',       url: 'https://start.me/p/xjMEMn/la-encicloped-ia' },
+      { name: 'Clipdrop',               url: 'https://clipdrop.co' },
+    ]
+  },
+  {
+    id: 'recursos', title: 'Recursos varios', emoji: '🔧',
+    resources: [
+      { name: 'ChatGPT – CHART Assistant',          url: 'https://chatgpt.com/g/g-68e67997a9f081918de74941886ffd67-chart-assistant' },
+      { name: 'GPT – Formateador de referencias',   url: 'https://chatgpt.com/g/g-6885f82a3d08819199473e7a631684ee-this-gpt-formats-bibliographic-references' },
+      { name: 'Stanford Agentic Reviewer',          url: 'https://paperreview.ai/' },
+      { name: 'OpenEvidence',                       url: 'https://www.openevidence.com/' },
+    ]
+  },
+  {
+    id: 'programacion', title: 'Programación', emoji: '💻',
+    resources: [
+      { name: 'Cursor – AI Code Editor', url: 'https://www.cursor.com' },
+      { name: 'W3Schools',               url: 'https://www.w3schools.com' },
+    ]
+  },
+  {
+    id: 'detectores', title: 'Detectores de IA', emoji: '🕵️',
+    resources: [
+      { name: 'ZeroGPT',   url: 'https://zerogpt.net/es' },
+      { name: 'AI Detect', url: 'https://www.aidetect.com/' },
+    ]
+  },
+  {
+    id: 'datasets', title: 'Datasets', emoji: '🗂️',
+    resources: [
+      { name: 'Kaggle Datasets', url: 'https://www.kaggle.com/datasets' },
+    ]
+  },
+  {
+    id: 'ocr', title: 'OCR', emoji: '📄',
+    resources: [
+      { name: 'LlamaParse – AI Document Parsing', url: 'https://www.llamaindex.ai/llamacloud' },
+    ]
+  },
+];
+
+// ── Build ──────────────────────────────────────────────
+function favicon(url) {
+  try { return `https://www.google.com/s2/favicons?domain=${new URL(url).hostname}&sz=32`; }
+  catch(e) { return ''; }
+}
+
+function buildPage() {
+  const tabsEl   = document.getElementById('tabs');
+  const statsEl  = document.getElementById('stats');
+  const sectionsEl = document.getElementById('sections');
+
+  let totalRes = DATA.reduce((s, d) => s + d.resources.length, 0);
+
+  // "All" tab
+  const allTab = mkTab('all', '🗂️ Todas', true);
+  tabsEl.appendChild(allTab);
+
+  DATA.forEach(sec => {
+    // Tab
+    tabsEl.appendChild(mkTab(sec.id, `${sec.emoji} ${sec.title}`, false));
+
+    // Section
+    const sEl = document.createElement('div');
+    sEl.className = `section${sec.accent ? ' ' + sec.accent : ''}`;
+    sEl.id = 'sec-' + sec.id;
+    sEl.dataset.sid = sec.id;
+
+    const hdr = document.createElement('div');
+    hdr.className = 'section-hdr';
+    hdr.innerHTML = `<h2>${sec.emoji} ${sec.title}</h2><span class="section-badge">${sec.resources.length}</span>`;
+    sEl.appendChild(hdr);
+
+    const grid = document.createElement('div');
+    grid.className = 'grid';
+
+    const sorted = [...sec.resources].sort((a, b) =>
+      a.name.localeCompare(b.name, 'es', { sensitivity: 'base' })
+    );
+
+    sorted.forEach(r => {
+      const a = document.createElement('a');
+      a.href = r.url;
+      a.target = '_blank';
+      a.rel = 'noopener noreferrer';
+      a.className = 'card';
+      a.dataset.name = r.name.toLowerCase();
+      a.innerHTML = `
+        <img src="${favicon(r.url)}" alt="" loading="lazy" onerror="this.style.display='none'">
+        <span class="card-name">${r.name}</span>
+        <span class="card-arrow">↗</span>`;
+      grid.appendChild(a);
+    });
+
+    sEl.appendChild(grid);
+    sectionsEl.appendChild(sEl);
+  });
+
+  statsEl.innerHTML = `
+    <div class="stat"><strong>${DATA.length}</strong> categorías</div>
+    <div class="stat"><strong>${totalRes}</strong> recursos</div>`;
+}
+
+function mkTab(id, label, active) {
+  const b = document.createElement('button');
+  b.className = 'tab' + (active ? ' active' : '');
+  b.dataset.tid = id;
+  b.textContent = label;
+  b.onclick = () => activateTab(id);
+  return b;
+}
+
+// ── Tab filter ─────────────────────────────────────────
+let currentTab = 'all';
+
+function activateTab(id) {
+  currentTab = id;
+  document.querySelectorAll('.tab').forEach(t => t.classList.toggle('active', t.dataset.tid === id));
+  document.querySelectorAll('.section').forEach(s => {
+    s.classList.toggle('hidden', id !== 'all' && s.dataset.sid !== id);
+  });
+  onSearch();
+}
+
+// ── Search ─────────────────────────────────────────────
+function onSearch() {
+  const q = document.getElementById('searchInput').value.trim().toLowerCase();
+  document.getElementById('btnClear').style.display = q ? 'inline-block' : 'none';
+  document.getElementById('searchTerm').textContent = q;
+
+  let total = 0;
+
+  document.querySelectorAll('.section').forEach(sEl => {
+    if (currentTab !== 'all' && sEl.dataset.sid !== currentTab) return;
+
+    let visible = 0;
+    sEl.querySelectorAll('.card').forEach(c => {
+      const match = !q || c.dataset.name.includes(q);
+      c.classList.toggle('hidden', !match);
+      if (match) visible++;
+    });
+    total += visible;
+    sEl.classList.toggle('hidden', visible === 0);
+  });
+
+  const noRes = document.getElementById('noResults');
+  noRes.style.display = (total === 0 && q) ? 'block' : 'none';
+}
+
+function clearSearch() {
+  document.getElementById('searchInput').value = '';
+  onSearch();
+  document.getElementById('searchInput').focus();
+}
+
+// ── Modal ──────────────────────────────────────────────
+function toggleModal(show) {
+  document.getElementById('modal').classList.toggle('hidden', !show);
+}
+
+// ── Keyboard shortcuts ─────────────────────────────────
+document.addEventListener('keydown', e => {
+  if (e.key === 'Escape') toggleModal(false);
+  if ((e.key === 'f' || e.key === '/') && document.activeElement.tagName !== 'INPUT') {
+    e.preventDefault();
+    document.getElementById('searchInput').focus();
+  }
+});
+
+buildPage();
+</script>
+</body>
+</html>
