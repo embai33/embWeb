@@ -169,7 +169,7 @@
     }
     .cv-chevron { margin-left: auto; font-size: 0.75rem; transition: transform 0.2s; }
     details[open] .cv-chevron { transform: rotate(180deg); }
-    .cv-sub-body { padding: 0.75rem 1rem; }
+    .cv-sub-body { padding: 0.75rem 1rem; font-weight: normal; }
 
     /* Open sub-section */
     .cv-sub-open {
@@ -212,6 +212,7 @@
     .cv-list-2 { padding-left: 2.8rem; margin-top: 0.2rem; list-style-type: disc; }
     .cv-sub { font-size: 0.9rem; font-weight: 600; color: var(--azul); margin: 0.9rem 0 0.4rem; }
     .cv-p { font-size: 0.84rem; color: var(--texto-sec); margin-bottom: 0.4rem; }
+    .container strong { font-weight: normal; }
 
     /* Modal */
     .modal-overlay {
@@ -285,6 +286,125 @@
     }
     .btn-top:hover { border-color: var(--azul-claro); color: var(--azul); }
 
+    /* ── PDF button ── */
+    .btn-pdf {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.28);
+      border: 1.5px solid rgba(255,255,255,0.6);
+      color: white;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-pdf:hover { background: rgba(255,255,255,0.42); }
+    .print-date { display: none; }
+
+    /* ── Print styles ── */
+    @media print {
+      @page { size: A4; margin: 2cm 2.5cm; }
+
+      header, .toc, .btn-top, .modal-overlay,
+      .cv-section-chevron { display: none !important; }
+
+      body { font-family: Calibri, Candara, "Segoe UI", sans-serif; font-size: 10pt; color: #000; background: #fff; }
+      .container { max-width: 100%; padding: 0; }
+
+      /* Reset global de negrita — solo títulos la recuperan con !important */
+      strong, b { font-weight: normal; }
+
+      /* ── Portada (profile card) ── */
+      .profile-card {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 2.5rem 0 2rem !important;
+        text-align: center;
+        break-after: page;
+      }
+      .profile-name { font-size: 15pt; font-weight: bold !important; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1rem; }
+      .profile-detail { font-size: 10pt; margin: 0.35rem 0; }
+      .profile-links { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+      .link-chip {
+        background: none !important;
+        border: none !important;
+        color: #333 !important;
+        font-size: 8.5pt;
+        padding: 0;
+      }
+      .print-date {
+        display: block !important;
+        font-size: 9pt;
+        color: #555;
+        margin-top: 1.8rem;
+        padding-top: 0.7rem;
+        border-top: 0.5pt solid #bbb;
+        text-align: center;
+      }
+
+      /* ── Expandir secciones colapsadas ── */
+      .cv-section.collapsed .cv-section-body { display: block !important; }
+      .cv-sub-open-body { display: block !important; }
+      details.cv-sub .cv-sub-body { display: block !important; }
+
+      /* ── Secciones principales ── */
+      .cv-section { border: none !important; box-shadow: none !important; border-radius: 0 !important; margin-bottom: 1rem; }
+      .cv-section-hdr {
+        background: none !important;
+        color: #000 !important;
+        padding: 0.2rem 0 !important;
+        border-bottom: 1.5pt solid #000 !important;
+        border-radius: 0 !important;
+      }
+      .cv-section-emoji { display: none; }
+      .cv-section-title { font-size: 13pt; font-weight: bold !important; text-transform: uppercase; letter-spacing: 0.03em; }
+      .cv-section-body { padding: 0.5rem 0 0 !important; }
+
+      /* ── Subsecciones details ── */
+      details.cv-sub { margin: 0.55rem 0; border: none !important; border-radius: 0 !important; overflow: visible !important; }
+      details.cv-sub > summary {
+        list-style: none;
+        font-size: 11pt;
+        font-weight: bold !important;
+        color: #000 !important;
+        background: none !important;
+        border-bottom: 0.5pt solid #888 !important;
+        padding: 0.1rem 0 !important;
+        border-radius: 0 !important;
+      }
+      details.cv-sub > summary::-webkit-details-marker { display: none; }
+      details.cv-sub > summary::marker { display: none; }
+      .cv-sub-body { padding: 0.25rem 0 !important; }
+
+      /* ── Subsecciones abiertas ── */
+      .cv-sub-open { margin: 0.55rem 0; border: none !important; border-radius: 0 !important; overflow: visible !important; }
+      .cv-sub-open-hdr {
+        font-size: 11pt;
+        font-weight: bold !important;
+        color: #000 !important;
+        background: none !important;
+        border-bottom: 0.5pt solid #888 !important;
+        padding: 0.1rem 0 !important;
+        border-radius: 0 !important;
+      }
+      .cv-sub-open-body { padding: 0.25rem 0 !important; }
+
+      /* ── Listas y párrafos ── */
+      .cv-list { font-size: 10pt; line-height: 1.55; }
+      ol.cv-list { padding-left: 3rem; }
+      .cv-p { font-size: 10pt; line-height: 1.55; }
+      .cv-list li { margin-bottom: 0.3rem; }
+
+      /* ── Saltos de página entre secciones ── */
+      #actividad_profesional,
+      #méritos_científicos_y_de_investigación { break-before: page; }
+
+      /* ── Links ── */
+      a { color: #000 !important; text-decoration: none; }
+    }
+
   </style>
 </head>
 <body>
@@ -295,6 +415,7 @@
     <span class="subtitle">Emilio Monte Boquet</span>
     <div class="header-updated" id="last-updated"></div>
   </div>
+  <button class="btn-pdf" onclick="printCV()">⬇ PDF</button>
   <a href="../index.html" class="btn-home">⌂ Inicio</a>
   <button class="btn-info" onclick="toggleModal(true)">ℹ Acerca de</button>
 </header>
@@ -315,6 +436,7 @@
 <a href="mailto:emiliomonteb@gmail.com" class="link-chip">✉ emiliomonteb@gmail.com</a>
 
     </div>
+    <div class="print-date" id="print-date"></div>
   </div>
 
   <div class="toc">
@@ -349,9 +471,7 @@
 <li><strong>Diploma de Nutrición</strong>. Curso de Postgrado de la Universidad de Valencia. Octubre 1997 a octubre 1998. Duración: 225 horas lectivas</li>
 <li><strong>Farmacología aplicada en Atención Farmacéutica. 2ª edición.</strong> Diploma de Postgrado de la Universidad de Valencia. Cursos 1997-1998, 1998-1999 y 1999-2000. Duración: 102 horas lectivas.</li>
 </ul>
-</ul>
-<li><strong>Diploma de Formación en “Farmacia Hospitalaria en el Abordaje Integral de la psoriasis”</strong>. Universidad de Alcalá. Carga lectiva de 15 créditos ECTS (1 crédito ECTS tiene una equivalencia de entre 25 y 30 horas). Alcalá de Henares, marzo 2018</li>
-<ul class="cv-list cv-list-0">
+<li>Diploma de Formación en “Farmacia Hospitalaria en el Abordaje Integral de la psoriasis”. Universidad de Alcalá. Carga lectiva de 15 créditos ECTS (1 crédito ECTS tiene una equivalencia de entre 25 y 30 horas). Alcalá de Henares, marzo 2018</li>
 <li><strong>Título de Experto Universitario en Gestión de la Carrera Profesional en Farmacia Hospitalaria</strong>. Equivalencia de 15 créditos E.C.T.S Universidad de alá de Henares Diciembre-2021 hasta diciembre-2022.</li>
 <li><strong>Título Experto Universitario en Bases para el Uso de la Inteligencia Artificial en Investigación y Docencia</strong>. Carga lectiva de 15 créditos ECTS. Universidad de Barcelona. Octubre 2023 a Julio 2024</li>
 <li><strong>Título Experto Universitario en Uso Avanzado de la Inteligencia Artificial en Investigación</strong>. Carga lectiva de 15 créditos ECTS. Universidad de Barcelona. Octubre 2024 a Julio 2025</li>
@@ -475,13 +595,14 @@
 <li>Certificado de formación permanente en la aplicación de la Inteligencia artificial en enfermedades inmunomediadas. Junio- Octubre 2024. Fundación General de la Universidad de Alcalá.</li>
 <li>Curso de <strong>formación en liderazgo digital para profesionales sanitarios</strong>. Secretaría de Estado de Sanidad. Dirección General de Ordenación Profesional. Ministerio de Sanidad. Nº de expediente 07-AFOC-02956.6/2024. Duración: 375 HORAS. Acreditado por la Comisión de Formación Continuada de las Profesiones Sanitarias de la Comunidad de Madrid - SNS con 16,6 créditos de formación continuada. Formación mixta (presencial y a distancia) del 6/5/2024 a 29/11/2024</li>
 </ol>
-</ul>
-<li>Idiomas</li>
+<li>Idiomas
 <ul class="cv-list cv-list-0">
 <li><em>Inglés</em>: oral y escrito.</li>
 <li><em>Valenciano</em>: grado elemental (Generalitat Valenciana - Consellería de Educació i Ciència).</li>
 </ul>
+</li>
 <li>Conocimientos informáticos: amplia experiencia demostrable en el manejo de bases de datos (dBase III, dBase IV, MS Access), hojas de cálculo (MS Excell), tratamientos de textos (MS Word, Word Perfect), presentaciones (MS Power Point, Harvard Graphics), paquetes estadísticos (SPSS, Statgraphics), diseño de páginas web (Macromedia Dreamweaver, MS Front Page, Wix), Internet, programas de gestión de oficina de farmacia (Nixfarma) y de gestión hospitalaria (Farmasyst, Prisma, Abucasis), programación (Basic, Visual Basic, dbase, HTML), herramientas 2.0, herramientas no-code</li>
+</ul>
   </div>
 </div>
 <div class="cv-section" id="actividad_profesional">
@@ -1005,9 +1126,9 @@
 <li>“<strong>Taller IA en paciente EPOC</strong>”. En: Programa Legends Hunter. GSK. Calpe, 23 de mayo de 2026</li>
 <li>“<strong>Del Excel infinito al software exacto: deja de adaptarte al software, ahora el software (IA) se adapta a ti.</strong>”. En Mesa 3: De la asistencia a la investigación: herramientas propias, RAG y búsquedas asistidas por IA. En: III Jornadas IAmedUB de casos de uso de la inteligencia artificial generativa en medicina y ciencias de la salud. Máster UB en Inteligencia Artificial Generativa. Facultat de Medicina I Ciències de la Salut. Universitat de Barcelona. Barcelona, 29 de mayo de 2026</li>
 <li>”<strong>Inteligencia artificial aplicada</strong>”. En: Reunión aCadeMiO. Sociedad Española de Farmacia Hospitalaria (SEFH). Barbate, 5 de junio de 2026</li>
+<li>Moderador mesa redonda “Lo mejor del último año en IMID”. En Jornadas Inmunohábitat: innovación y abordaje integral en IMID. Reunión Nacional IMID 2026. Abbvie. Madrid, 26 y 27 de junio de 2026</li>
+<li>Moderador mesa redonda “Perspectivas futuras en inmunología”. En Jornadas Inmunohábitat: innovación y abordaje integral en IMID. Reunión Nacional IMID 2026. Abbvie. Madrid, 26 y 27 de junio de 2026</li>
 <li>”<strong>La revolución del uso de la IA</strong>”. Webinar: Incorporación de la inteligencia artificial en la gestión del dato: ¿yendo más allá? En: IV Curso de Farmacoeconomía con R. Apoteca Formación – Biotyc. Webinar online, 18 de julio de 2026</li>
-<li>Moderador mesa redonda “<strong>Lo mejor del último año en IMID</strong>”. En Jornadas Inmunohábitat: innovación y abordaje integral en IMID. Reunión Nacional IMID 2026. Abbvie. Madrid, 26 y 27 de junio de 2026</li>
-<li>Moderador mesa redonda “<strong>Perspectivas futuras en inmunología</strong>”. En Jornadas Inmunohábitat: innovación y abordaje integral en IMID. Reunión Nacional IMID 2026. Abbvie. Madrid, 26 y 27 de junio de 2026</li>
 </ol></div>
 </details>
 
@@ -1763,8 +1884,8 @@
 <li><strong>Coordinador y profesor en el</strong> “<strong>XXII Curso de Atención Farmacéutica al Paciente Trasplantado</strong>”. Servicio de Farmacia, Hospital Universitario La Fe. Curso acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con créditos (número de registro: ), por la Sociedad Española de Farmacia Hospitalaria (SEFH) y por la Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Declarado Curso de Interés Sanitario por la Escuela Valenciana de Estudios para la Salud (EVES). Horas lectivas: 40 h. Valencia, 4-6 de marzo de 2025</li>
 <li><strong>Director académico y profesor del Programa Fast Track, liderando la innovación sanitaria. 9ª edición.</strong> Deusto Business School Health. Madrid, marzo-mayo de 2025</li>
 <li>Coordinador y profesor en <strong>Proyecto FarmaImpulso Laboratorio de Ideas sobre Mejora en la calidad asistencial y gestión eficiente de las IMIDs</strong>. 7ª edición, 2025</li>
-<li><strong>Coordinador y profesor en Proyecto FarmaImpulso Laboratorio de Ideas sobre Mejora en la calidad asistencial y gestión eficiente de las IMIDs.</strong> 8ª edición, 2026</li>
-<li><strong>Coordinador</strong> en Jornadas Inmunohábitat: innovación y abordaje integral en IMID. Reunión Nacional IMID 2026. Abbvie. Madrid, 26 y 27 de junio de 2026</li>
+<li>Coordinador y profesor en Proyecto FarmaImpulso Laboratorio de Ideas sobre Mejora en la calidad asistencial y gestión eficiente de las IMIDs. 8ª edición, 2026</li>
+<li>Coordinador en Jornadas Inmunohábitat: innovación y abordaje integral en IMID. Reunión Nacional IMID 2026. Abbvie. Madrid, 26 y 27 de junio de 2026</li>
 </ul></div>
 </details>
 <div class="cv-sub-open" id="otros">
@@ -1819,10 +1940,11 @@
 </div>
 
 <script>
-const LAST_UPDATED = '28 jun 2026';
+const LAST_UPDATED = '30 jun 2026';
 
 /* ── Header date ── */
 document.getElementById('last-updated').textContent = 'Actualizado: ' + LAST_UPDATED;
+document.getElementById('print-date').textContent = 'Última actualización: ' + LAST_UPDATED;
 
 /* ── Modal ── */
 function toggleModal(show) {
@@ -1865,6 +1987,22 @@ function scrollToSec(id) {
   if (!el) return;
   el.classList.remove('collapsed');
   setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 50);
+}
+
+/* ── Generar PDF ── */
+function printCV() {
+  document.querySelectorAll('.cv-section').forEach(s => s.classList.remove('collapsed'));
+  document.querySelectorAll('details.cv-sub').forEach(d => d.setAttribute('open', ''));
+  document.querySelectorAll('.cv-sub-open-body').forEach(b => b.style.removeProperty('display'));
+
+  setTimeout(() => {
+    window.print();
+    window.addEventListener('afterprint', function restore() {
+      document.querySelectorAll('.cv-section').forEach(s => s.classList.add('collapsed'));
+      document.querySelectorAll('details.cv-sub').forEach(d => d.removeAttribute('open'));
+      document.querySelectorAll('.cv-sub-open-body').forEach(b => b.style.display = 'none');
+    }, { once: true });
+  }, 150);
 }
 </script>
 </body>
