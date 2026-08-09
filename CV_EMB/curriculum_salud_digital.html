@@ -1,0 +1,870 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <meta name="apple-mobile-web-app-title" content="EMB">
+  <link rel="apple-touch-icon" href="../EMB_Dibujo_Peq.png">
+  <link rel="manifest" href="../manifest.json">
+  <title>CV Salud Digital — Emilio Monte Boquet</title>
+  <style>
+
+    :root {
+      --azul:       #1a5276;
+      --azul-claro: #2980b9;
+      --gris-fondo: #f4f6f9;
+      --gris-borde: #dce1e8;
+      --blanco:     #ffffff;
+      --texto:      #2c3e50;
+      --texto-sec:  #5d6d7e;
+      --verde:      #27ae60;
+      --radius:     8px;
+    }
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--gris-fondo);
+      color: var(--texto);
+      line-height: 1.6;
+      -webkit-text-size-adjust: 100%;
+    }
+    header {
+      background: var(--azul);
+      color: white;
+      padding: 1rem 2rem;
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.18);
+      position: sticky;
+      top: 0;
+      z-index: 200;
+    }
+    header h1 { font-size: 1.2rem; font-weight: 600; }
+    header .subtitle { font-size: 0.8rem; opacity: 0.8; }
+    .btn-home, .btn-info {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.18);
+      border: 1px solid rgba(255,255,255,0.35);
+      color: white;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      transition: background 0.2s;
+      text-decoration: none;
+    }
+    .btn-home { margin-left: auto; }
+    .btn-home:hover, .btn-info:hover { background: rgba(255,255,255,0.3); }
+    .container { max-width: 900px; margin: 0 auto; padding: 1.5rem; }
+
+    /* Profile */
+    .profile-card {
+      background: var(--blanco);
+      border-radius: var(--radius);
+      padding: 1.75rem 2rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+      border-top: 4px solid var(--azul);
+    }
+    .profile-name {
+      font-size: 1.6rem;
+      font-weight: 700;
+      color: var(--azul);
+      margin-bottom: 0.75rem;
+    }
+    .profile-detail {
+      font-size: 0.88rem;
+      color: var(--texto-sec);
+      margin-bottom: 0.3rem;
+      line-height: 1.5;
+    }
+    .profile-detail strong { color: var(--texto); }
+    .profile-links { margin-top: 1rem; display: flex; gap: 0.6rem; flex-wrap: wrap; }
+    .link-chip {
+      display: inline-block;
+      padding: 0.3rem 0.85rem;
+      background: var(--gris-fondo);
+      border: 1px solid var(--gris-borde);
+      border-radius: 20px;
+      font-size: 0.78rem;
+      font-weight: 600;
+      color: var(--azul-claro);
+      text-decoration: none;
+      transition: background 0.15s;
+    }
+    .link-chip:hover { background: #d6eaf8; }
+
+    /* TOC */
+    .toc {
+      background: var(--blanco);
+      border-radius: var(--radius);
+      padding: 1rem 1.25rem;
+      box-shadow: 0 1px 4px rgba(0,0,0,0.08);
+      margin-bottom: 1.5rem;
+    }
+    .toc-title { font-weight: 700; color: var(--azul); margin-bottom: 0.5rem; font-size: 0.85rem; }
+    .toc-links { display: flex; flex-wrap: wrap; gap: 0.4rem; }
+    .toc-link {
+      padding: 0.2rem 0.65rem;
+      border-radius: 12px;
+      border: 1px solid var(--gris-borde);
+      color: var(--texto-sec);
+      text-decoration: none;
+      font-size: 0.75rem;
+      transition: all 0.15s;
+    }
+    .toc-link:hover { border-color: var(--azul-claro); color: var(--azul-claro); }
+
+    /* Main section */
+    .cv-section {
+      background: var(--blanco);
+      border-radius: var(--radius);
+      box-shadow: 0 1px 4px rgba(0,0,0,0.07);
+      margin-bottom: 1.25rem;
+      overflow: hidden;
+    }
+    .cv-section-hdr {
+      display: flex;
+      align-items: center;
+      gap: 0.7rem;
+      padding: 1rem 1.25rem;
+      background: var(--azul);
+      color: white;
+    }
+    .cv-section-emoji { font-size: 1.1rem; }
+    .cv-section-title { font-size: 1rem; font-weight: 700; }
+    .cv-section-body { padding: 1.25rem; }
+
+    /* Collapsible sub-section */
+    details.cv-sub {
+      border: 1px solid var(--gris-borde);
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+    details.cv-sub summary {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.7rem 1rem;
+      background: var(--gris-fondo);
+      cursor: pointer;
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--azul);
+      list-style: none;
+      user-select: none;
+    }
+    details.cv-sub summary::-webkit-details-marker { display: none; }
+    .cv-count {
+      background: var(--azul-claro);
+      color: white;
+      padding: 0.1rem 0.4rem;
+      border-radius: 10px;
+      font-size: 0.72rem;
+      font-weight: 700;
+    }
+    .cv-chevron { margin-left: auto; font-size: 0.75rem; transition: transform 0.2s; }
+    details[open] .cv-chevron { transform: rotate(180deg); }
+    .cv-sub-body { padding: 0.75rem 1rem; font-weight: normal; }
+
+    /* Open sub-section */
+    .cv-sub-open {
+      border: 1px solid var(--gris-borde);
+      border-radius: var(--radius);
+      margin-bottom: 0.75rem;
+      overflow: hidden;
+    }
+    .cv-sub-open-hdr {
+      padding: 0.7rem 1rem;
+      background: var(--gris-fondo);
+      font-weight: 600;
+      font-size: 0.88rem;
+      color: var(--azul);
+    }
+    .cv-sub-open-body { padding: 0.75rem 1rem; }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+      gap: 0.6rem;
+      margin-bottom: 1rem;
+    }
+    .stat-card {
+      background: var(--gris-fondo);
+      border: 1px solid var(--gris-borde);
+      border-radius: var(--radius);
+      padding: 0.6rem 0.9rem;
+      text-align: center;
+    }
+    .stat-number { font-size: 1.5rem; font-weight: 700; color: var(--azul); line-height: 1.2; }
+    .stat-label { font-size: 0.72rem; color: var(--texto-sec); margin-top: 0.15rem; }
+
+    /* Content */
+    .cv-list { padding-left: 1.4rem; font-size: 0.84rem; line-height: 1.65; color: var(--texto); }
+    .cv-list li { margin-bottom: 0.45rem; }
+    .cv-list-0 { padding-left: 1.2rem; }
+    .cv-list-1 { padding-left: 2rem; margin-top: 0.3rem; list-style-type: circle; }
+    .cv-list-2 { padding-left: 2.8rem; margin-top: 0.2rem; list-style-type: disc; }
+    .cv-sub { font-size: 0.9rem; font-weight: 600; color: var(--azul); margin: 0.9rem 0 0.4rem; }
+    .cv-p { font-size: 0.84rem; color: var(--texto-sec); margin-bottom: 0.4rem; }
+    .container strong { font-weight: normal; }
+
+    /* Modal */
+    .modal-overlay {
+      position: fixed; inset: 0;
+      background: rgba(0,0,0,0.45);
+      display: flex; align-items: center; justify-content: center;
+      z-index: 1000; padding: 1rem;
+    }
+    .modal-overlay.hidden { display: none !important; }
+    .modal-box {
+      background: var(--blanco);
+      border-radius: var(--radius);
+      max-width: 420px; width: 100%;
+      padding: 1.5rem;
+      box-shadow: 0 8px 30px rgba(0,0,0,0.22);
+    }
+    .modal-box h2 { font-size: 1.05rem; color: var(--azul); margin-bottom: 0.75rem; }
+    .modal-box p { font-size: 0.86rem; color: var(--texto-sec); margin-bottom: 0.5rem; line-height: 1.5; }
+    .modal-footer {
+      margin-top: 1rem; padding-top: 0.75rem;
+      border-top: 1px solid var(--gris-borde);
+      display: flex; align-items: center; justify-content: space-between;
+      font-size: 0.82rem; color: var(--texto-sec);
+    }
+    .modal-footer a { color: var(--azul-claro); text-decoration: none; }
+    .btn-close {
+      background: var(--gris-borde); border: none;
+      padding: 0.4rem 1rem; border-radius: var(--radius);
+      cursor: pointer; font-size: 0.85rem; color: var(--texto);
+    }
+    .btn-close:hover { background: #c5ccd6; }
+
+    @media (max-width: 600px) {
+      header { padding: 0.75rem 1rem; }
+      header h1 { font-size: 1rem; }
+      .container { padding: 0.9rem; }
+      .profile-name { font-size: 1.2rem; }
+      .stats-grid { grid-template-columns: repeat(2, 1fr); }
+    }
+
+    /* ── Fecha actualización en header ── */
+    .header-updated {
+      font-size: 0.68rem;
+      opacity: 0.65;
+      margin-top: 0.15rem;
+    }
+
+    /* ── Secciones principales colapsables ── */
+    .cv-section-hdr { cursor: pointer; user-select: none; }
+    .cv-section-hdr:hover { background: #154360; }
+    .cv-section-chevron { margin-left: auto; font-size: 0.8rem; transition: transform 0.25s; }
+    .cv-section.collapsed .cv-section-chevron { transform: rotate(-90deg); }
+    .cv-section.collapsed .cv-section-body { display: none; }
+
+    /* ── Subsección "Otros" colapsable ── */
+    .cv-sub-open-hdr { cursor: pointer; user-select: none; }
+    .cv-sub-open-hdr:hover { background: #e8edf3; }
+
+    /* ── Botón Ir a inicio ── */
+    .btn-top {
+      display: table;
+      margin: 1.25rem auto 0;
+      padding: 0.35rem 1.1rem;
+      border: 1px solid var(--gris-borde);
+      border-radius: 20px;
+      background: var(--gris-fondo);
+      color: var(--texto-sec);
+      font-size: 0.75rem;
+      cursor: pointer;
+      transition: border-color 0.15s, color 0.15s;
+    }
+    .btn-top:hover { border-color: var(--azul-claro); color: var(--azul); }
+
+    /* ── PDF button ── */
+    .btn-pdf {
+      flex-shrink: 0;
+      background: rgba(255,255,255,0.28);
+      border: 1.5px solid rgba(255,255,255,0.6);
+      color: white;
+      padding: 0.35rem 0.9rem;
+      border-radius: var(--radius);
+      cursor: pointer;
+      font-size: 0.85rem;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn-pdf:hover { background: rgba(255,255,255,0.42); }
+    .print-date { display: none; }
+
+    /* ── Print styles ── */
+    @media print {
+      @page { size: A4; margin: 2cm 2.5cm; }
+
+      header, .toc, .btn-top, .modal-overlay,
+      .cv-section-chevron { display: none !important; }
+
+      body { font-family: Calibri, Candara, "Segoe UI", sans-serif; font-size: 10pt; color: #000; background: #fff; }
+      .container { max-width: 100%; padding: 0; }
+
+      /* Reset global de negrita — solo títulos la recuperan con !important */
+      strong, b { font-weight: normal; }
+
+      /* ── Portada (profile card) ── */
+      .profile-card {
+        background: none !important;
+        border: none !important;
+        box-shadow: none !important;
+        padding: 2.5rem 0 2rem !important;
+        text-align: center;
+        break-after: page;
+      }
+      .profile-name { font-size: 15pt; font-weight: bold !important; text-transform: uppercase; letter-spacing: 0.07em; margin-bottom: 1rem; }
+      .profile-detail { font-size: 10pt; margin: 0.35rem 0; }
+      .profile-links { display: flex !important; justify-content: center; flex-wrap: wrap; gap: 0.5rem; margin-top: 1rem; }
+      .link-chip {
+        background: none !important;
+        border: none !important;
+        color: #333 !important;
+        font-size: 8.5pt;
+        padding: 0;
+      }
+      .print-date {
+        display: block !important;
+        font-size: 9pt;
+        color: #555;
+        margin-top: 1.8rem;
+        padding-top: 0.7rem;
+        border-top: 0.5pt solid #bbb;
+        text-align: center;
+      }
+
+      /* ── Expandir secciones colapsadas ── */
+      .cv-section.collapsed .cv-section-body { display: block !important; }
+      .cv-sub-open-body { display: block !important; }
+      details.cv-sub .cv-sub-body { display: block !important; }
+
+      /* ── Secciones principales ── */
+      .cv-section { border: none !important; box-shadow: none !important; border-radius: 0 !important; margin-bottom: 1rem; }
+      .cv-section-hdr {
+        background: none !important;
+        color: #000 !important;
+        padding: 0.2rem 0 !important;
+        border-bottom: 1.5pt solid #000 !important;
+        border-radius: 0 !important;
+      }
+      .cv-section-emoji { display: none; }
+      .cv-section-title { font-size: 13pt; font-weight: bold !important; text-transform: uppercase; letter-spacing: 0.03em; }
+      .cv-section-body { padding: 0.5rem 0 0 !important; }
+
+      /* ── Subsecciones details ── */
+      details.cv-sub { margin: 0.55rem 0; border: none !important; border-radius: 0 !important; overflow: visible !important; }
+      details.cv-sub > summary {
+        list-style: none;
+        font-size: 11pt;
+        font-weight: bold !important;
+        color: #000 !important;
+        background: none !important;
+        border-bottom: 0.5pt solid #888 !important;
+        padding: 0.1rem 0 !important;
+        border-radius: 0 !important;
+      }
+      details.cv-sub > summary::-webkit-details-marker { display: none; }
+      details.cv-sub > summary::marker { display: none; }
+      .cv-sub-body { padding: 0.25rem 0 !important; }
+
+      /* ── Subsecciones abiertas ── */
+      .cv-sub-open { margin: 0.55rem 0; border: none !important; border-radius: 0 !important; overflow: visible !important; }
+      .cv-sub-open-hdr {
+        font-size: 11pt;
+        font-weight: bold !important;
+        color: #000 !important;
+        background: none !important;
+        border-bottom: 0.5pt solid #888 !important;
+        padding: 0.1rem 0 !important;
+        border-radius: 0 !important;
+      }
+      .cv-sub-open-body { padding: 0.25rem 0 !important; }
+
+      /* ── Listas y párrafos ── */
+      .cv-list { font-size: 10pt; line-height: 1.55; }
+      ol.cv-list { padding-left: 3rem; }
+      .cv-p { font-size: 10pt; line-height: 1.55; }
+      .cv-list li { margin-bottom: 0.3rem; }
+
+      /* ── Saltos de página entre secciones ── */
+      #actividad_profesional,
+      #méritos_científicos_y_de_investigación { break-before: page; }
+
+      /* ── Links ── */
+      a { color: #000 !important; text-decoration: none; }
+    }
+
+  </style>
+</head>
+<body>
+<header>
+  <div>
+    <h1>💻 Curriculum Vitae — Salud Digital</h1>
+    <span class="subtitle">Emilio Monte Boquet</span>
+    <div class="header-updated" id="last-updated"></div>
+  </div>
+  <button class="btn-pdf" onclick="printCV()">⬇ PDF</button>
+  <a href="curriculum_vitae.html" class="btn-info">📄 CV completo</a>
+  <a href="../index.html" class="btn-home">⌂ Inicio</a>
+  <button class="btn-info" onclick="toggleModal(true)">ℹ Acerca de</button>
+</header>
+<div class="container">
+    <div class="profile-card">
+    <div class="profile-name">EMILIO MONTE BOQUET</div>
+    <p class="profile-detail">Fecha nacimiento: 29 de septiembre de 1965</p>
+<p class="profile-detail">Categoría: <strong>Doctor en Farmacia</strong></p>
+<p class="profile-detail">Farmacéutico <strong>Especialista en Farmacia Hospitalaria</strong></p>
+<p class="profile-detail"><strong>Farmacéutico Consultor</strong> (Grado 4 del sistema de Carrera Profesional en el ámbito de las Instituciones Sanitarias de la Conselleria de Sanidad, Generalitat Valenciana)</p>
+<p class="profile-detail"><strong>Profesor Asociado Asistencial</strong>. Departamento de Farmacología. Facultad de Farmacia. Universidad de Valencia</p>
+    <div class="profile-links">
+      <a href="https://orcid.org/0000-0001-5352-2601" class="link-chip" target="_blank" rel="noopener">🔬 ORCID</a>
+<a href="http://www.linkedin.com/in/emilio-monte-boquet" class="link-chip" target="_blank" rel="noopener">💼 LinkedIn</a>
+<a href="https://scholar.google.es/citations?view_op=list_works&amp;hl=es&amp;hl=es&amp;user=AZFiEGsAAAAJ&amp;pagesize=100" class="link-chip" target="_blank" rel="noopener">🎓 Google Scholar</a>
+<a href="mailto:emiliomonteb@gmail.com" class="link-chip">✉ emiliomonteb@gmail.com</a>
+
+    </div>
+    <div class="print-date" id="print-date"></div>
+  </div>
+  <div class="toc">
+    <div class="toc-title">Ir a sección:</div>
+    <div class="toc-links"><a href="#formacion_digital" class="toc-link" onclick="scrollToSec('formacion_digital'); return false;">🎓 Formación</a> <a href="#actividad_digital" class="toc-link" onclick="scrollToSec('actividad_digital'); return false;">🏥 Actividad profesional</a> <a href="#meritos_digital" class="toc-link" onclick="scrollToSec('meritos_digital'); return false;">🔬 Méritos científicos</a></div>
+  </div>
+<div class="cv-section" id="formacion_digital">
+  <div class="cv-section-hdr">
+    <span class="cv-section-emoji">🎓</span>
+    <span class="cv-section-title">Formación en tecnología y salud digital</span>
+    <span class="cv-section-chevron">▼</span>
+  </div>
+  <div class="cv-section-body">
+    <ul class="cv-list cv-list-0">
+<li><strong>Máster Propio en Salud Digital</strong>. Universidad Europea Miguel de Cervantes. 2017</li>
+<li><strong>Título Experto Universitario en Bases para el Uso de la Inteligencia Artificial en Investigación y Docencia</strong>. Carga lectiva de 15 créditos ECTS. Universidad de Barcelona. Octubre 2023 a Julio 2024</li>
+<li><strong>Título Experto Universitario en Uso Avanzado de la Inteligencia Artificial en Investigación</strong>. Carga lectiva de 15 créditos ECTS. Universidad de Barcelona. Octubre 2024 a Julio 2025</li>
+<li><strong>Título Experto Universitario en Uso Avanzado de la Inteligencia Artificial en Docencia</strong>. Carga lectiva de 15 créditos ECTS. Universidad de Barcelona. Octubre 2025 a Julio 2026</li>
+<li>Curso “Seguridad en los sistemas de información”. Escuela Valenciana d´Estudis per a la Salut (EVES). Plan de formación continua. Noviembre 2000. Horas lectivas: 20</li>
+<li>Curso “Internet en Medicina. Revisiones sistemáticas y búsquedas bibliográficas”. Escuela Valenciana d´Estudis per a la Salut (EVES). Plan de formación continua. 13-21 de junio de 2002. Horas lectivas: 20</li>
+<li>Curso “Sistemas de Registro de Actividad: Utilización y Utilidad”. Escuela Valenciana d´Estudis per a la Salut (EVES). Plan de formación continua. 10-20 de septiembre de 2002. Horas lectivas: 20</li>
+<li>Curso “Sistemas de Información Sanitaria: Cuadro de Mandos para la Gestión”. Escuela Valenciana d´Estudis per a la Salut (EVES). Horas lectivas: 23. Valencia, 6-30 de octubre de 2006.</li>
+<li>I Curso virtual “Manejo y Aplicaciones de Dispositivos Móviles en Farmacia Hospitalaria”. Farmamobile. Asociación para la Investigación, Desarrollo e Innovación en Farmacia Hospitalaria (AIDIFH). Curso acreditado por la por la Sociedad Española de Farmacia Hospitalaria (SEFH). Considerado de interés científico por la Sociedad Española de Farmacia Hospitalaria (SEFH), Sociedad Murciana de Farmacia Hospitalaria (Somufarh), Sociedad Valenciana de Farmacia Hospitalaria (SVFH), Sociedad Andaluza de Farmacéuticos de Hospitales y Centros Sociosanitarios (SAFH) y Societat Catalana de Farmácia Clínica. Horas lectivas: 50. Octubre 2006-Agosto 2007.</li>
+<li>Promueva su empresa con redes sociales. HP España – cursos en línea. Febrero 2010.</li>
+<li>17ª Jornada Viure en Salut: Educación para la Salud 2.0. Dirección General de Salud Pública. Consellería de Sanitat. Generalitat Valenciana. Valencia, 5 de junio de 2013</li>
+<li>Curso “Community Management y Gestión de Social Media”. Deusto Formación. Horas lectivas: 200. Calificación: sobresaliente. Barcelona, 8 de enero de 2014.</li>
+<li>Curso #Twitterapeutica: Farmacoterapia 2.0. promovido por la Gerencia de atención integrada de Albacete, e impartido online en la plataforma de eFormación desde el 9/09/2013 al 12/06/2014. Actividad acreditada por la Comisión de Formación Continuada de Castilla-La Mancha del Sistema de Acreditación de la Formación Continuada de las profesiones sanitarias en el Sistema Nacional de Salud con 9,7 créditos (Nº exp.: M-2013-3503)</li>
+<li>Curso de introducción a la salud digital. Curso on-line, impartido por SalusPlay y celebrado del 1 al 30 de noviembre de 2016. Actividad acreditada por el Consejo Vasco de Formación Continuada de las Profesiones Sanitarias con el nº 025/16-3 de registro y un total de 3,5 créditos. Bilbao, 01 de diciembre de 2016</li>
+<li>Curso de asistencia y comunicación sanitaria digital. Curso on-line, impartido por SalusPlay y celebrado del 1 al 30 de noviembre de 2016. Actividad acreditada por el Consejo Vasco de Formación Continuada de las Profesiones Sanitarias con el nº 242/16-3 de registro y un total de 3,5 créditos. Bilbao, 19 de diciembre de 2016</li>
+<li>Curso de búsqueda, creación y difusión de información sanitaria digital. Curso on-line, impartido por SalusPlay y celebrado del 1 al 31 de diciembre de 2016. Actividad acreditada por el Consejo Vasco de Formación Continuada de las Profesiones Sanitarias con el nº 037/16-4 de registro y un total de 3,9 créditos. Bilbao, 17 de enero de 2017</li>
+<li>Gestión avanzada de información digital en salud. Curso on-line, impartido por SalusPlay y celebrado del 1 al 28 de febrero de 2017. Actividad acreditada por el Consejo Vasco de Formación Continuada de las Profesiones Sanitarias con el nº 103/17 de registro y un total de 2,9 créditos (22 horas). Bilbao, 16 de marzo de 2017</li>
+<li>Herramientas para la recopilación y almacenamiento de información digital en salud. Curso on-line, impartido por SalusPlay y celebrado del 1 al 28 de febrero de 2017. Actividad acreditada por el Consejo Vasco de Formación Continuada de las Profesiones Sanitarias con el nº 102/17 de registro y un total de 2,9 créditos. Bilbao, 16 de marzo de 2017</li>
+<li>Gestion avanzada de la identidad, reputacion online e influencia digital en salud. Curso on-line, impartido por SalusPlay y celebrado del 1 al 30 de abril de 2017. Actividad acreditada por el Consejo Vasco de Formación Continuada de las Profesiones Sanitarias con el nº 397/17 de registro y un total de 4,7 créditos (22 horas). Bilbao, 06 de julio de 2017</li>
+<li>Curso de Formación Superior Smart Health Awareness. Claves de la aplicación de la Inteligencia Artificial en salud. Edición Febrero 2022. Programa con una equivalencia de 1 crédito E.C.T.S. Tecnum-Escuela de Ingeniería de la Universidad de Navarra, en colaboración con Merck e IBM. Pamplona, 22 de abril de 2022</li>
+<li>2º Curso de SALUD DIGITAL DE FARMACIA HOSPITALARIA (DIGIEIA): Optimización en Salud digital. Impartido entre el 20 de junio de 2022 y el 20 de febrero de 2023, por el centro de formación CLOVER, con una duración total de 210 horas, equivalentes a 8 créditos ECTS. Universidad de Alcalá. Fundación General de la Universidad de Alcalá</li>
+<li>D4B: Digital 4 Better. Programa de Digitalización para Profesionales Asistenciales. The Valley Business School y Universidad Alfonso X el Sabio. Curso semipresencial de 22h de duración. Feb-Jun 2024</li>
+<li>Certificado de formación permanente en la aplicación de la Inteligencia artificial en enfermedades inmunomediadas. Junio- Octubre 2024. Fundación General de la Universidad de Alcalá.</li>
+<li>Curso de <strong>formación en liderazgo digital para profesionales sanitarios</strong>. Secretaría de Estado de Sanidad. Dirección General de Ordenación Profesional. Ministerio de Sanidad. Nº de expediente 07-AFOC-02956.6/2024. Duración: 375 HORAS. Acreditado por la Comisión de Formación Continuada de las Profesiones Sanitarias de la Comunidad de Madrid - SNS con 16,6 créditos de formación continuada. Formación mixta (presencial y a distancia) del 6/5/2024 a 29/11/2024</li>
+<li>Conocimientos informáticos: amplia experiencia demostrable en el manejo de bases de datos (dBase III, dBase IV, MS Access), hojas de cálculo (MS Excell), tratamientos de textos (MS Word, Word Perfect), presentaciones (MS Power Point, Harvard Graphics), paquetes estadísticos (SPSS, Statgraphics), diseño de páginas web (Macromedia Dreamweaver, MS Front Page, Wix), Internet, programas de gestión de oficina de farmacia (Nixfarma) y de gestión hospitalaria (Farmasyst, Prisma, Abucasis), programación (Basic, Visual Basic, dbase, HTML), herramientas 2.0, herramientas no-code</li>
+</ul>
+  </div>
+</div><div class="cv-section" id="actividad_digital">
+  <div class="cv-section-hdr">
+    <span class="cv-section-emoji">🏥</span>
+    <span class="cv-section-title">Actividad profesional</span>
+    <span class="cv-section-chevron">▼</span>
+  </div>
+  <div class="cv-section-body">
+    <ul class="cv-list cv-list-0">
+<li>Miembro del <strong>grupo de Comunicación Interna</strong> del Servicio de Farmacia del Hospital La Fe. Coordinador de la Intranet del Servicio de Farmacia (FarmaWeb).</li>
+<li>Miembro del <strong>comité científico de Farmamobile</strong>, portal web dedicado a dispositivos móviles y su aplicación a sanidad en general y a farmacia hospitalaria en particular.</li>
+<li>Coordinador funcional del <strong>plan asistencial de atención farmacéutica telemática (PAt) en las unidades de atención farmacéutica a pacientes externos (UFPE) de los hospitales de la Comunitat Valenciana</strong>, perteneciente al Programa de Optimización e Integración Terapéutica de la Conselleria de Sanitat Universal y Salut Pública (Instrucción 6/2021). Generalitat Valenciana</li>
+<li>Miembro del <strong>Grupo Técnico de Inteligencia Artificial (GTIA) de la Agrupación Sanitaria Interdepartamental (ASI) Valencia Sur</strong> desde agosto de 2025</li>
+</ul>
+  </div>
+</div><div class="cv-section" id="meritos_digital">
+  <div class="cv-section-hdr">
+    <span class="cv-section-emoji">🔬</span>
+    <span class="cv-section-title">Méritos científicos y de investigación</span>
+    <span class="cv-section-chevron">▼</span>
+  </div>
+  <div class="cv-section-body">
+    <div class="stats-grid"><div class="stat-card"><div class="stat-number">104</div><div class="stat-label">Ponencias y conferencias</div></div><div class="stat-card"><div class="stat-number">14</div><div class="stat-label">Docencia másters/cursos</div></div><div class="stat-card"><div class="stat-number">16</div><div class="stat-label">Talleres de IA</div></div><div class="stat-card"><div class="stat-number">17</div><div class="stat-label">Publicaciones</div></div><div class="stat-card"><div class="stat-number">21</div><div class="stat-label">Comunicaciones</div></div><div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Libros</div></div><div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Capítulos de libros</div></div><div class="stat-card"><div class="stat-number">4</div><div class="stat-label">Estudios de investigación</div></div><div class="stat-card"><div class="stat-number">1</div><div class="stat-label">Cursos dirigidos</div></div><div class="stat-card"><div class="stat-number">12</div><div class="stat-label">Otros méritos</div></div></div>
+<details class="cv-sub" id="ponencias_mesas_redondas_conferencias_dig">
+  <summary>
+    Ponencias, mesas redondas, conferencias… <span class="cv-count">(104)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ol class="cv-list cv-list-0">
+<li>“<strong>Sistema de evaluación de páginas web de salud</strong>”. En “Presentación FarHoWeb 2002”. Altea, 22 de febrero de 2003</li>
+<li>“ <strong>Nuevas tecnologías para la práctica asistencial en los Servicios de Farmacia</strong>”. Talleres prácticos. Valencia, 27 de abril de 2005; Sevilla, 29 de junio de 2005; Badajoz, 5 de julio de 2005; Granada, 6 de julio de 2005; Tenerife, 23 de septiembre de 2005; Barcelona, 19 de octubre de 2005; Zaragoza, 28 de noviembre de 2005; Santiago de Compostela, 13 de diciembre de 2005; Bilbao, 18 de enero de 2006</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 2ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud (5,5 créditos), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Valencia y Denia, 18-21 de mayo de 2010.</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 3ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud (8 créditos), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Valencia y Denia, 17-20 de mayo de 2011.</li>
+<li>“<strong>Web 2.0</strong>”. Reunión Vocalía Sociedad Española de Farmacia Hospitalaria (SEFH) de Canarias. Santa Cruz de Tenerife, 10 de junio de 2011.</li>
+<li>“<strong>Salud 2.0 y Farmacia Hospitalaria</strong>”. Reunión Biológico2.0. Valencia, 27 de junio de 2011.</li>
+<li>Mesa Redonda: “<strong>Redes de información, colaboración y conocimiento</strong>”. En: Jornadas e-Salud. SIMO Network (Feria Internacional de Servicios y Soluciones TIC para empresas). Madrid, 4-6 de octubre de 2011.</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 4ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud (8 créditos), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Valencia y Denia, 22-25 de mayo de 2012.</li>
+<li>“<strong>El papel del entorno Web 2.0 en el ámbito de la farmacia hospitalaria orientada al paciente</strong>”. En: IX Seminario CISFARH “Innovación: Nuevas formas de Gestión, Nuevas Tecnologías”. Fundación Gaspar Casal. Actividad acreditada por la Comisión de Formación Continuada de las Profesiones Sanitarias de la Comunidad de Madrid-Sistema Nacional de Salud con 2,5 créditos de formación continuada. Reconocimiento Científico de la Sociedad Española de Farmacia Hospitalaria. Madrid, 28 y 29 de noviembre de 2012</li>
+<li>“<strong>Atención Farmacéutica al paciente con patologías víricas en el entorno Web 2.0</strong>”. Mesa redonda: Desarrollo de la Atención Farmacéutica al paciente con patologías víricas. En: Jornadas 2013 de actualización en Atención Farmacéutica al paciente con patologías víricas. Grupos de VIH y de Hepatopatías Víricas de la Sociedad Española de Farmacia Hospitalaria (SEFH). Actividad acreditada por la Comisión de Formación Continuada de las Profesiones Sanitarias de la Comunidad de Madrid-Sistema Nacional de Salud con 2,2 créditos de formación continuada (Nº expediente 13/570). Madrid, 9-10 de mayo de 2013</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 5ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 5,5 créditos (nº 160061100004A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 24 de mayo de 2013.</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. Mesa redonda: “Tecnologías 2.0 aplicadas a la farmacia hospitalaria”. En: Reunión de la vocalía de la SEFH zona de Andalucía y Extremadura. Sevilla, 22 de junio de 2013</li>
+<li>“<strong>Taller de gestión y difusión de información sanitaria dirigida al paciente VIH. Utilidad de las herramientas web 2.0</strong>”. Grupo de trabajo de Atención Farmacéutica al paciente VIH de la SEFH. 58 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH). Málaga, 23 de octubre de 2013</li>
+<li>“<strong>Utilidad de la web 2.0 en la gestión de audiencias: converso, luego me acerco</strong>”. Dra Mónica Moro Mesa. Moderador: Emilio Monte Boquet. Espacios sin red. 58 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH). Málaga, 24 de octubre de 2013</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 6ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,2 créditos (nº 160061100005A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 23 de mayo de 2014</li>
+<li>“<strong>Google Glass: nuevas tecnologías y sus aplicaciones en Farmacia Hospitalaria</strong>”. Taller Pfizer. 59 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH). Valladolid, 30 de septiembre a 3 de octubre de 2014</li>
+<li>“<strong>Presentación aplicación NUSA para smartphone o tableta</strong>”. En: NUSA. Jornada Bayer. Valencia, 23 de marzo de 2015</li>
+<li>“<strong>Formación en redes sociales: #twitterapeutica</strong>”. En: Innovar en formación. Compartir conocimiento y experiencia con ayuda de la web 2.0. 12 Congreso Sociedad Andaluza de Farmacéuticos de Hospitales y Centros Sociosanitarios (SAFH). Marbella, 17 de abril de 2015</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 7ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 5,5 créditos (nº 160061100006A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 22 de mayo de 2015</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 8ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,2 créditos (nº 160061100007A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 27 de mayo de 2016</li>
+<li>“<strong>Rompiendo barreras con nuevos modelos de atención: telefarmacia y modelo CMO</strong>”. En: III Encuentro Global Farmacia Hospitalaria. Sanitaria Dos Mil. Segovia, 20-21 abril de 2017</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 9ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,2 créditos (nº 160061100007A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 26 de mayo de 2017</li>
+<li>“<strong>Empoderando al paciente en el uso de medicamentos</strong>”. En: I Jornada Salud 2.0 CuidadosLaFe. Hospital Universitari i Politècnic La Fe. Valencia, 17 de octubre de 2017</li>
+<li>“<strong>El valor de la comunicación entre farmacia y hospitalaria y el paciente: redes sociales, e-pacientes</strong>”. En: Jornada Conectados “Comunicación entre farmacia y otros servicios del hospital”. Madrid, 21 de noviembre de 2017</li>
+<li>“<strong>Transformación digital desde la farmacia: focus en el paciente hematológico</strong>”. En XI Foro de debate sobre patología infecciosa en pacientes hematológicos (PIPH-FOCUS 2017). Valencia, 27 de noviembre de 2017</li>
+<li>“<strong>Papel de la mSalud en la recogida y registro de patient reported outcomes (PRO)</strong>”. En: Introducción a la aplicación de las medidas de salud autopercibidas por los pacientes (patient-reported outcomes). Sociedad Madrileña de Farmacia Hospitalaria (SMFH). Madrid, 29 de enero de 2018</li>
+<li>Mesa redonda (moderador) “<strong>Experiencias de herramientas de comunicación con el paciente</strong>”. En: XV Seminario CISFARH (Ciclo de Seminarios de Formación para Farmacéuticos de Hospital) “La oportunidad digital en la atención sanitaria”. Fundación Gaspar Casal. Madrid, 19 y 19 de abril de 2018</li>
+<li>“<strong>Competencias digitales del farmacéutico hospitalario</strong>” (mesa redonda). IV Encuentro Global Farmacia Hospitalaria. Sanitaria Dos Mil. 19 y 20 de abril de 2018</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 10ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 5,5 créditos, Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 25 de mayo de 2018</li>
+<li>“<strong>El valor de la comunicación entre farmacia y hospitalaria y el paciente: redes sociales, e-pacientes</strong>”. En: Jornada Conectados “Comunicación entre farmacia y otros servicios del hospital”. Madrid, 23 de octubre de 2018</li>
+<li>“<strong>Registros y bases de datos en hemofilia</strong>”. En: Curso Internacional de Coagulopatías Congénitas del Hospital La Fe. Valencia, 22, 23 y 24 de mayo de 2019</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 11ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 5,5 créditos, Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 24 de mayo de 2019</li>
+<li>“<strong>Organización de las estructuras y los procesos para la dispensación y administración de medicamentos del ámbito hospitalario a pacientes no ingresados</strong>”. En: Jornada “Home drug delivery y telefarmacia. Mesa redonda sobre experiencias de Home drug delivery y Telefarmacia”. IV Jornadas FARUPEIB (Farmacéuticos Unidades de Pacientes Externos Illes Balears). Mahón, 24 de mayo de 2019</li>
+<li>“<strong>Dispensación a domicilio en hemofilia. Experiencia del Hospital UP La Fe con la Asociación de hemofílicos</strong>”. En: Jornada “Home drug delivery y telefarmacia. Mesa redonda sobre experiencias de Home drug delivery y Telefarmacia”. IV Jornadas FARUPEIB (Farmacéuticos Unidades de Pacientes Externos Illes Balears). Mahón, 24 de mayo de 2019</li>
+<li>“<strong>Telemedicina en la optimización del medicamento: Telefarmacia</strong>”. En: Terapias avanzadas en Enfermedad Inflamatoria Intestinal. Telemedicina. Unidad de Enfermedad Inflamatoria Intestinal Hospital U.P. La Fe. Valencia, 22 de noviembre de 2019</li>
+<li>“<strong>¿Qué pacientes son candidatos a telefarmacia? Utilidad de los modelos de MAPEX</strong>”. En: Webinar “Incorporación de la telefarmacia, en la Atención Farmacéutica para Farmacéuticos de Hospital”. Sociedad Andaluza de Farmacéuticos de Hospitales y Centros Sociosanitarios (SAFH). Sesión online, 9 de junio de 2020</li>
+<li>“<strong>Estratificación de pacientes en home delivery</strong>”. En: Webinar “El futuro de la atención farmacéutica hospitalaria: aprendizajes y oportunidades de la nueva normalidad”. Sociedad Española de Farmacia Hospitalaria (SEFH). Sesión online, 18 de junio de 2020</li>
+<li>“<strong>Experiencias de Home Drug Delivery en la Comunidad Valenciana</strong>”. En: Webinar “Experiencias en home delivery, ¿seguimos?”. Roche. Sesión online, 25 de junio de 2020</li>
+<li>“<strong>Telefarmacia: ahora o nunca</strong>”. En: Webinar “Telefarmacia: +digitales, +conectados”. Sociedad Española de Farmacia Hospitalaria (SEFH). Sesión online, 02 de julio de 2020</li>
+<li>“<strong>La Farmacia Hospitalaria en continua transformación en la atención al paciente</strong>”. En: 1er Webinar CONÉCTATE “Actitud y adaptación para mejorar la comunicación con los pacientes: cómo la pandemia ha acelerado la transformación digital”. Leo Pharma. Sesión online, 14 de julio de 2020</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 12ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,9 créditos, Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 16 de octubre de 2020</li>
+<li>MESA MULTIDISCIPLINAR “<strong>El abordaje de las IMIDs en la era post-COVID 19. Telemedicina y telefarmacia</strong>”. (Moderador mesa redonda). En: Jornada de formación FarmaImpulso sobre Mejora en la calidad asistencial y gestión eficiente de las IMIDs (2ª edición). Sesión online, 18 de noviembre de 2020</li>
+<li>“<strong>Coordinación de nuevas prácticas en la provisión de medicamentos: Del punto de atención al domicilio</strong>”. En: Jornada Geteccu sobre Abordaje Interdisciplinar de la Telemedicina en Enfermedad Inflamatoria Intestinal. Online, 19 de noviembre de 2020</li>
+<li>“<strong>¿Qué necesitamos para seguir mejorando la comunicación?</strong>”. En: Webinar “Telefarmacia Hospitalaria en la Práctica Asistencial”. Sociedad Murciana de Farmacia Hospitalaria (SOMUFARH). Sesión virtual, 24 de noviembre de 2020</li>
+<li>“<strong>Telefarmacia y nuevas tecnologías: El futuro de las Teleconsultas</strong>”. Programa formativo en Telefarmacia. Servicio de Farmacia Hospital Virgen Macarena. Fundación Pública Andaluza para la Gestión de la Investigación en Salud de Sevilla (FISEVI). Sesión online, 2 de marzo de 2021</li>
+<li>“<strong>Telefarmacia y home delivery, una nueva realidad en el servicio de farmacia</strong>”. En: Jornadas Efecto Múltiple 2.0. Multiplicando las opciones del paciente con EM. Sesión “Realidad en el manejo del paciente con EM”. Jornadas con aval y garantía de la Sociedad Española de Farmacia Hospitalaria (SEFH). Online, 22 de junio de 2021</li>
+<li>“<strong>PROM/PREM en el paciente con Enfermedad Inflamatoria Intestinal</strong>”. En: I Jornada Nacional sobre PROM y PREM. Fundación Canaria Instituto de Investigación Sanitaria de Canarias (FIISC). Online, 23 de junio de 2021</li>
+<li>“<strong>La FH en un mundo digital ¿qué competencias digitales precisamos?</strong>”. En: Formación 360: qué damos y recibimos (Mesa redonda). XVIII Ciclo de Seminarios de Formación para Farmacéuticos de Hospital (CISFARH) 2021 “La Revolución Digital en la Farmacia Hospitalaria”. Fundación Gaspar Casal. Madrid, 29-30 de septiembre de 2021</li>
+<li>“<strong>Influencers digitales en el mundo sanitario. Cómo llegar a los pacientes a través de los nuevos canales de comunicación y qué hay del paciente no digital</strong>” (Mesa redonda). En: XVIII Ciclo de Seminarios de Formación para Farmacéuticos de Hospital (CISFARH) 2021 “La Revolución Digital en la Farmacia Hospitalaria”. Fundación Gaspar Casal. Madrid, 29-30 de septiembre de 2021</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 12ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,9 créditos, Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 8 de octubre de 2021</li>
+<li>“<strong>Telefarmacia: del posicionamiento al proyecto</strong>”. En: IX Jornada de avances en Farmacia Hospitalaria. Madrid, 11 de noviembre de 2021</li>
+<li>“<strong>Claves de la Comunicación para generar confianza y transparencia en los profesionales y pacientes</strong>”. Mesa redonda. En: proyecto Come Together “Transformando la comunicación y el liderazgo en entornos digitales”. think&amp;action. Amgen. Webinar, 23 de noviembre de 2021</li>
+<li>“<strong>Salud móvil en Farmacia Hospitalaria</strong>”. En: Digitalización de las Guías de Atención Farmacéutica en Psoriasis y Espondiloartropatías. Sociedad Española de Farmacia Hospitalaria (SEFH). Jornada online, 15 de diciembre de 2021</li>
+<li>“<strong>Cómo usar las listas de Twitter</strong>”. En: Webinars sobre herramientas digitales como apoyo a la Atención Farmacéutica. Grupo FHusion de la Sociedad Española de Farmacia Hospitalaria (SEFH). Jornada online, 17 de enero de 2022</li>
+<li>“<strong>Revolución digital en la Farmacia Hospitalaria</strong>”. UGC Farmacia Hospitalaria. Hospital Universitario Reina Sofía. Sesión online, 29 de marzo de 2022</li>
+<li>“<strong>Telefarmacia y dispensación diferida. De la teoría a la práctica</strong>”. En: Jornadas 2022 de actualización en atención farmacéutica al paciente con patologías víricas. Sociedad Española de Farmacia Hospitalaria (SEFH). Madrid, 12 y 13 de mayo de 2022</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 12ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,9 créditos (nº registro 160002130025A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 27 de mayo de 2022</li>
+<li>“<strong>Desarrollo de la telefarmacia y utilidad para el modelo CMO</strong>”. En: Reunión aCadeMiO. Sociedad Española de Farmacia Hospitalaria (SEFH). Barbate, 3 de junio de 2022</li>
+<li>“<strong>Tecnología y Salud Digital</strong>”. En: Jornada post-Midyear 2023. Sociedad Española de Farmacia Hospitalaria. Madrid, 15 de febrero de 2023</li>
+<li>“<strong>Telefarmacia en el paciente trasplantado</strong>”. XX Curso de Atención Farmacéutica al Paciente Trasplantado. Servicio de Farmacia, Hospital Universitario La Fe. Curso acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con créditos (número de registro: ), por la Sociedad Española de Farmacia Hospitalaria (SEFH) y por la Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Declarado Curso de Interés Sanitario por la Escuela Valenciana de Estudios para la Salud (EVES). Horas lectivas: 40 h. Valencia, 7-10 de marzo de 2023</li>
+<li>“<strong>Impacto de la telefarmacia en el paciente con VIH</strong>”. En: Reunión +VIHDA Gilead. Patrocinio científico de la Asociación de la Red de Investigación en sida (RIS). Avalado por la Sociedad Española de Farmacia Hospitalaria (SEFH). Webinar online, 28 de marzo de 2023</li>
+<li>“<strong>Digitalización sanitaria y acceso a bases de datos clínicas. Una visión desde la Farmacia Hospitalaria</strong>”. En: IX Digitalización sanitaria y acceso a bases de datos clínicas (Mesa redonda). Encuentro global Farmacia Hospitalaria. Redacción Médica. Córdoba, 25 y 26 de mayo de 2023</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 15ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,9 créditos (nº registro), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 26 de mayo de 2023</li>
+<li>Moderador en la mesa redonda “<strong>Abordaje multidisciplinar de las enfermedades inflamatorias T2: No todos los biológicos son iguales</strong>”. En III Congreso Actualfarma “Innovaciones en farmacoterapia: inteligencia artificial y digitalización”. Online, 1 de junio de 2023</li>
+<li>“<strong>Gamificación como innovación para mejorar la farmacoterapia</strong>”. Mesa redonda Innovación/Tecnología. En: VII Jornadas FARUPEIB “Gestión y formación como pilares de la Farmacia Hospitalaria. Organizado por FARUPEIB (Farmacéuticos de Pacientes Externos de las Islas Baleares). Mahón, 1-2 de junio de 2023</li>
+<li><strong>&quot;Desarrollo de la telefarmacia y utilidad para el modelo CMO&quot;</strong>. Emilio Monte y Luis Margusino. En: Reunión aCadeMiO. Sociedad Española de Farmacia Hospitalaria (SEFH). Barbate, 30 de junio de 2023</li>
+<li>“<strong>Inteligencia Artificial y optimización del tratamiento antimicrobiano: desde la farmacia a la clínica</strong>” (conferencia de clausura). En: ÁGORA de enfermedades infecciosas, 3ª edición. Fundación Micellium. Sociedad de Enfermedades Infecciosas de la Comunidad Valenciana (SEICV). Calpe, 2-3 de febrero de 2024 <a href="https://mega.nz/file/U7UVHA4a#sp4fpBZzwyLDW_0Lkl10Pq55jJGCxPKoilu03oZ2Df4" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>“<strong>Inteligencia artificial en gestión: farmacia hospitalaria</strong>”. En: Mesa Redonda “IA en gestión”. Innovation in Healthcare. Executive update 2024. Muy Interesante. Madrid, 23 de mayo de 2024 <a href="https://mega.nz/file/Fn0TDATA#KpZd59qvUom8UktFMMPgwF5j0Ti76ycgsK5ieNmf2U4" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 15ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,9 créditos (nº registro), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 24 de mayo de 2024 <a href="https://mega.nz/file/1mEziDCS#71ITX6nj230hszqiiCbBfOu8Vk9WW3kfjUbMX2fs0B0" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>“<strong>Digitalización, centralización y gestión del conocimiento</strong>”. Mesa redonda. En: VI Foro de Comisiones de Farmacia y Terapéutica: la terapéutica racional desde las CFT. Fundación para la Investigación en Salud (FUINSA). Madrid, 4 de junio de 2024</li>
+<li>“<strong>Inteligencia artificial aplicada a CMO</strong>”. En: Reunión aCadeMiO. Sociedad Española de Farmacia Hospitalaria (SEFH). Barbate, 7 de junio de 2024 <a href="https://mega.nz/file/pmc0nQTA#CZQmmDV9-DY9on5iwPdwtd-va3iYrwnXh-LvDQRrhCo" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Mesa redonda: “<strong>La revolución de la salud digital</strong>”. En: 1er Levin Summer Summit: Innovación, Sostenibilidad y Acceso en la Sanidad del Futuro”. Hospital Gregorio Marañon, Madrid, 20-21 de junio de 2024</li>
+<li>Mesa redonda: “<strong>Innovaciones Disruptivas: La transformación de la Farmacia Hospitalaria hacía modelos predictivos de Inteligencia Artificial y Gestión del Talento</strong>”. En: III Foro de Gestión y Servicios de Farmacia Hospitalaria. Segovia, 3 y 4 de julio de 2024</li>
+<li>“<strong>Retos y desafíos de la IA en salud</strong>”. En: Inteligencia artificial aplicada a las coagulopatías congénitas. Seminario online. Real Fundación Victoria Eugenia (RFVE). Online, 2 de octubre de 2024 <a href="https://mega.nz/file/Zy1hjR7A#XdVkiyCZTS6JUHdTo6o88YEGSakIgcvzNjUmc26_GNU" target="_blank" rel="noopener">VER</a></li>
+<li>“<strong>Proyecto formativo para pacientes trasplantados basado en gamificación IA</strong>”. En: I Jornadas de casos de uso de la inteligencia artificial generative en ciencias de la salud. Facultat de Medicina I Ciències de la Salut. Universitat de Barcelona. Barcelona, 4 de octubre de 2024</li>
+<li>“<strong>Herramientas basadas en IA que van a cambiar nuestra forma de trabajar en farmacia hospitalaria</strong>”. En: Taller 2 – Grupos de trabajo: ETHOS + FHUSION. Inteligencia Artificial: una oportunidad para la farmacia hospitalaria no exenta de desafíos éticos, ¿cómo afrontarlos?. 69 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH). A Coruña, 17 de octubre de 2024</li>
+<li>“<strong>Aplicaciones y desafíos de la IA en el entorno sanitario</strong>”. Mesa Redonda: Inteligencia Artificial y Enfermería: desafíos para una nueva era. En: II Jornada de Investigación en Enfermería. Desafíos para una nueva era. INVESCOL 2024. Consejo de Colegios Oficiales de Enfermería de Castilla y León y Fundación Index. Salamanca, 25 de octubre de 2024</li>
+<li>“<strong>Datos en FH: cómo construir tu Data Science farmacéutico</strong>”. Yared González y Emilio Monte. Curso Smart Health Awareness SEFH. Universidad de Navarra. Online, 28 de octubre - 15 de diciembre 2024</li>
+<li>“<strong>Gestionar con inteligencia artificial: más necesario de lo que parece</strong>”. Mesa redonda: Gestionar con inteligencia artificial. En: X Reunión annual del grupo GEDEFO (Grupo de Farmacia Oncológica) de la SEFH. Madrid, 13 de marzo de 2025</li>
+<li>“<strong>Innovación en Farmacia Hospitalaria: aplicaciones de la Inteligencia Artificial</strong>”. Mesa redonda “Revolución de la Atención Médica: Cómo la Inteligencia Artificial Mejora la Práctica Asistencial”. En: Jornada sobre IA en Salud. Innovación y sostenibilidad: el papel de la Inteligencia Artificial. Fundación PORIB. Madrid, 8 de abril de 2025</li>
+<li>“<strong>Inteligencia artificial en Microbiología: Caso práctico de manejo de antimicrobianos y resistencias bacterianas</strong>”. En: VI Taller teórico-práctico “Las resistencias antimicrobianas. Problemática actual y perspectivas futuras”. Organizado por el Grupo de Estudio de la Resistencia a los antimicrobianos y de la Infección asociada a la Atención Sanitaria (GERIAS) de la Sociedad Valenciana de Microbiología Clínica (SVAMC). Valencia, 14 de mayo de 2025</li>
+<li>“<strong>Gamificación como herramienta de dinamización</strong>”. Networking proyectos Farmacia Hospitalaria. En: IX Jornadas FARUPEIB “One Health”. Organizado por FARUPEIB (Farmacéuticos de Pacientes Externos de las Islas Baleares). Illa Llatzeret Menorca, 15-17 de mayo de 2025</li>
+<li>“<strong>Inteligencia artificial y EPOC</strong>”. En: Simposium SANOFI “Nuevos horizontes en el tratamiento de la EPOC”. Congreso de la Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Valencia, 22 de mayo de 2025</li>
+<li>“<strong>¿Cómo puede ayudarnos la inteligencia artificial en la eficiencia de la farmacia asistencial?</strong>”. En: Reunión Farmaimpulso Catalano-Balear. Johnson &amp; Johnson. Gavá (Barcelona), 24 de mayo de 2025</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 17ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,9 créditos (nº registro 160002130031A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 30 de mayo de 2025</li>
+<li>“<strong>Inteligencia artificial aplicada a CMO</strong>”. En: Reunión aCadeMiO. Sociedad Española de Farmacia Hospitalaria (SEFH). Barbate, 6 de junio de 2025</li>
+<li>“<strong>Transformación digital en los servicios de Farmacia Hospitalaria</strong>”. En: Workshop “Nuevas conexiones. Cómo médicos, hospitales e industria están transformando juntos la salud”. Cátedra de transformación digital en la gestion de la salud. UDIMA-Inspira Network. Madrid, 20 de junio de 2025</li>
+<li>“<strong>Inteligencia artificial y salud digital: desafíos actuales y casos prácticos</strong>”. En: “Jornada de reflexión Construyendo el futuro de la prevención cardiovascular: una visión multidisciplinar”. Madrid, 1 de julio de 2025</li>
+<li>“<strong>Lectura CriticAI: plataforma para lectura crítica de evidencia científica con IA</strong>”. En: II Jornadas de casos de uso de la inteligencia artificial generativa en ciencias de la salud. Máster UB en Inteligencia Artificial Generativa en metodología de investigación y docencia IACS-UB. Facultat de Medicina I Ciències de la Salut. Universitat de Barcelona. Barcelona, 4 de julio de 2025</li>
+<li>“<strong>Incorporación de la IA como ayuda a la toma de decisiones sobre farmacoterapia</strong>”. En taller grupos de trabajo ETHOS – DIGIFHAR “Sapere aude cómo desarrollar una inteligencia artificial ética y con valores que contribuya a humanizar y personalizar la farmacoterapia de los pacientes”. 70 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH). Málaga, 15 de octubre de 2025</li>
+<li>“<strong>Del hype a la realidad: inteligencia artificial que ya está cambiando tu hospital</strong>”. En sesión Speaker Corner. 70 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH). Málaga, 16 de octubre de 2025</li>
+<li>“<strong>Aplicaciones de la IA generativa en investigación y publicaciones científicas</strong>”. En: Ciclo Webinars IA-SEFH. Grupo de Trabajo de Nuevas Tecnologías y Farmacia Hospitalaria Digital (DigiFHar) de la Sociedad Española de Farmacia Hospitalaria (SEFH). Webinar online, 16 de diciembre de 2025</li>
+<li>“<strong>Digitaliza y automatiza cuestionarios prom paso a paso con IA</strong>”. En: Ciclo Webinars IA-SEFH. Grupo de Trabajo de Nuevas Tecnologías y Farmacia Hospitalaria Digital (DigiFHar) de la Sociedad Española de Farmacia Hospitalaria (SEFH). Webinar online, 17 de febrero de 2026</li>
+<li>“<strong>Diseño de soluciones y aplicaciones mediado por IA generativa</strong>”. En: Sesiones Formativas online Módulo 9. Sociedad Española de Farmacia Hospitalaria (SEFH). Webinar online, 24 de febrero de 2026</li>
+<li>“<strong>Inteligencia Artificial: una oportunidad para la Atención Farmacéutica a pacientes trasplantados</strong>”. XXIII Curso de Atención Farmacéutica al Paciente Trasplantado. Servicio de Farmacia, Hospital Universitario La Fe. Curso acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 5,7 créditos (número de registro: 160004080030A:), por la Sociedad Española de Farmacia Hospitalaria (SEFH) y por la Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Declarado Curso de Interés Sanitario por la Escuela Valenciana de Estudios para la Salud (EVES). Horas lectivas: 40 h. Valencia, 2-4 de marzo de 2026</li>
+<li>“<strong>Desarrollo de competencias en IA. Visión y posicionamiento de la SEFH</strong>”. En: II Jornadas Nacionales de Inteligencia Artificial para Farmacia Hospitalaria. Hospital General Universitario Gregorio Marañón. Madrid, 10 de marzo de 2026</li>
+<li>“<strong>Aplicaciones Prácticas de la IA Generativa</strong>”. En: Curso de Inteligencia Artificial para profesionales del departamento de salud Valencia La Fe. Comisión de Docencia, Hospital U.P. La Fe. Valencia, 10 de marzo de 2026</li>
+<li>“<strong>Inteligencia Artificial en EPOC</strong>”. En: Mesa EPOC. XXXIII Congreso de la Sociedad Valenciana de Neumología (SVN/FNCV). Calpe, 27-28 de marzo de 2026</li>
+<li>“<strong>Inteligencia Artificial en la mejora de la atención al paciente externo en Farmacia Hospitalaria</strong>”. En: Programa de Atenció Integral al Pacient Extern des de la Farmácia Hospitalària. Societat Catalana de Farmàcia Clínica (SCFC). Barcelona, 14 de abril de 2026</li>
+<li>“<strong>Aplicaciones de la IA Generativa en investigación y publicaciones científicas: Chat GPT, Scite, Semantic Scholar</strong>”. En: Curso Aplicaciones prácticas de la Inteligencia Artificial Generativa para Farmacéuticos de Atención Primaria. 1ª Edición. Sociedad Española de Farmacéuticos de Atención Primaria (SEFAP). Webinar online, 16 de abril de 2026</li>
+<li>“<strong>Web 2.0 y Farmacia Hospitalaria</strong>”. En: Curso de metodología en gestión farmacoterapéutica. 18ª edición. Declarado de interés científico por la Agencia Valenciana de Salud (Consellería de Sanitat). Acreditado por la Comisión de Formación Continuada del Sistema Nacional de Salud con 6,9 créditos (nº registro 160002130031A), Sociedad Española de Farmacia Hospitalaria (SEFH) y Sociedad Valenciana de Farmacia Hospitalaria (SVFH). Denia, 22 de mayo de 2026</li>
+<li>“<strong>Del Excel infinito al software exacto: deja de adaptarte al software, ahora el software (IA) se adapta a ti.</strong>”. En Mesa 3: De la asistencia a la investigación: herramientas propias, RAG y búsquedas asistidas por IA. En: III Jornadas IAmedUB de casos de uso de la inteligencia artificial generativa en medicina y ciencias de la salud. Máster UB en Inteligencia Artificial Generativa. Facultat de Medicina I Ciències de la Salut. Universitat de Barcelona. Barcelona, 29 de mayo de 2026</li>
+<li>”<strong>Inteligencia artificial aplicada</strong>”. En: Reunión aCadeMiO. Sociedad Española de Farmacia Hospitalaria (SEFH). Barbate, 5 de junio de 2026</li>
+<li>”<strong>La revolución del uso de la IA</strong>”. Webinar: Incorporación de la inteligencia artificial en la gestión del dato: ¿yendo más allá? En: IV Curso de Farmacoeconomía con R. Apoteca Formación – Biotyc. Webinar online, 18 de julio de 2026</li>
+</ol></div>
+</details>
+<details class="cv-sub" id="actividad_docente_dig">
+  <summary>
+    Actividad docente (másters/cursos) <span class="cv-count">(14)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ol class="cv-list cv-list-0">
+<li>“<strong>Herramientas 2.0. en el entorno del paciente VIH</strong>”. En Máster propio internacional de seguimiento farmacoterapéutico al paciente vih/sida (online). V edición (de 1 de enero a 31 de diciembre de 2014). Escuela Internacional de Postgrado. Cátedra de Atención Farmacéutica. Universidad de Granada</li>
+<li>“<strong>Herramientas 2.0. en el entorno del paciente VIH</strong>”. En Máster propio internacional de seguimiento farmacoterapéutico al paciente vih/sida (online). VI edición (de 12 de enero a 31 de diciembre de 2015). Escuela Internacional de Postgrado. Cátedra de Atención Farmacéutica. Universidad de Granada</li>
+<li>“<strong>TICs, TACs y mHealth</strong>”. En curso de Atención Farmacéutica sobre VIH y edad. Horas lectivas del curso: 96,8 horas. Participación: 5 horas docentes. Actividad acreditada por la Dirección General de Investigación y Gestión del Conocimiento de la Consejería de Salud, Junta de Andalucía, con 8,64 créditos. Año 2016</li>
+<li>“<strong>Herramientas 2.0. en el entorno del paciente VIH</strong>”. En Máster propio internacional de seguimiento farmacoterapéutico al paciente vih/sida (online). VII edición (08 de enero de 2016 al 31 de diciembre de 2016). Escuela Internacional de Postgrado. Cátedra de Atención Farmacéutica. Universidad de Granada</li>
+<li>Emilio Monte Boquet. <strong>Las App en el seguimiento del tratamiento de los pacientes</strong>. Unidad 2 “Innovación”. VII Curso de Formación Continuada para Farmacéuticos de Hospital. Fundación Promedic/Fundeficsa. Sociedad Española de Farmacia Hospitalaria (SEFH). Actividad acreditada por la Dirección General de Investigación y Gestión del Conocimiento de la Consejería de Salud de la Junta de Andalucía con 9,07 créditos y 60 horas lectivas (nº de expediente 3215/2016 y nº de expediente 5419/2016). Abril 2016 – Abril 2017</li>
+<li>Lorena Martínez Cercós y Emilio Monte Boquet. <strong>Nuevas tecnologías digitales. Módulo: Desarrollo organizativo y tecnología</strong> (coordinador: Javier García Pellicer). Curso: Avances en el Desarrollo Estratégico de Servicios de Farmacia Hospitalaria. Sociedad Española de Farmacia Hospitalaria (SEFH)</li>
+<li>Emilio Monte Boquet. <strong>Recursos de informacion sanitaria de interes para su recomendación a los pacientes</strong>. En: Plan de formación en cronicidad de la SEFH. Aula 2 “Abordaje integral del paciente con patologías crónicas”. Programa DPC (Desarrollo Profesional Continuo) de la Sociedad Española de Farmacia Hospitalaria. Disponible en: http://formacion.sefh.es/dpc/sefh-curso-cronico/aula2/tema05_pagina01.php</li>
+<li>Pablo Pérez Huertas, Emilio Monte Boquet. “<strong>Farmacia ambulatoria y nuevas tecnologías</strong>”. En: EL PACIENTE AMBULATORIO: Atención al paciente ambulatorio, comunicación y entrevista clínica. Adherencia al tratamiento. Farmacia ambulatoria y nuevas tecnologías. Programa de formación de técnicos en farmacia (TecniFarH). Sociedad Española de Farmacia Hospitalaria (SEFH)</li>
+<li>Monte Boquet E. <strong>Cuestiones logísticas y necesidades de los pacientes IMID que acuden a las farmacias hospitalarias: ¿Existen áreas de mejora? El valor de la Telefarmacia</strong>. En: módulo teórico 2 del Proyecto PHI Farmacia Hospitalaria e IMID. Sociedad para la Formación, Innovación y Asesoría en Medicina (SOFIA). Enero-Diciembre 2022</li>
+<li>Monte Boquet E. Autor del capítulo 2: “<strong>Medida de resultados reportados por los pacientes (PROM) y medida de la experiencia informada por los pacientes (PREM)</strong>”, dentro del Módulo 5 (HUMANIZACIÓN). Título Experto en Esclerosis Múltiple para Farmacia Hospitalaria. Cátedra de Inmunología UFV-Merck, Universidad Francisco de Vitoria, Madrid</li>
+<li>Monte Boquet E. <strong>Cuestiones logísticas y necesidades de los pacientes IMID que acuden a las farmacias hospitalarias: ¿Existen áreas de mejora? El valor de la Telefarmacia</strong>. En: módulo teórico 2 del Proyecto PHI Farmacia Hospitalaria e IMID. 2ª edición. Sociedad para la Formación, Innovación y Asesoría en Medicina (SOFIA). Diciembre 2023 – Noviembre 2024</li>
+<li>Monte Boquet E. <strong>Nuevas Tecnologías para el seguimiento a distancia</strong>. En Asignatura 5: Atención Farmacéutica al paciente VIH. Contenido equivalente a 0,5 ECT (10 horas de formación). Diploma Experto en VIH dirigido a farmacéuticos de hospital. Sociedad Española de Farmacia Hospitalaria (SEFH). Universidad de Alcalá. Año académico 2023-2024</li>
+<li>Monte Boquet E y Palanques Pastor T. Autores del tema 7 “<strong>Adherencia, PROMs, PREMs y optimización terapéutica en espondiloartotropatías</strong>”. Certificado de Formación Permanente en el Abordaje Integral de la Espondiloartritis en Farmacia Hospitalaria (15 ECTS). Universidad de Alcalá de Henares. Año académico 2024-2025</li>
+<li>Monte Boquet E. Autor del capítulo 2: “<strong>Medida de resultados reportados por los pacientes (PROM) y medida de la experiencia informada por los pacientes (PREM)</strong>”, dentro del Módulo 5 (HUMANIZACIÓN). Título Experto en Esclerosis Múltiple para Farmacia Hospitalaria. Cátedra de Inmunología UFV-Merck, Universidad Francisco de Vitoria, Madrid. 2024</li>
+</ol></div>
+</details>
+<details class="cv-sub" id="actividad_docente_no_reglada_dig">
+  <summary>
+    Actividad docente no reglada — Talleres de IA <span class="cv-count">(16)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ol class="cv-list cv-list-0">
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital La Paz (taller 1), Madrid, 23 de junio de 2025</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital de Cartagena, 19 de noviembre de 2025</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital La Paz (taller 2), Madrid, 10 de diciembre de 2025</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital Virgen de la Victoria, Málaga, 15 de diciembre de 2025</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital de Cruces, Bilbao, 29 de enero de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital de Navarra, Pamplona, 3 de febrero de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital de Basurto, Bilbao, 16 de febrero de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital de Torrecárdenas, Almería, 24 de febrero de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital de Sagunto, 31 de marzo de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital Puerta de Hierro, Madrid, 31 de marzo de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital Infanta Sofía, Madrid, 22 de abril de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital Fundación Jiménez Díaz, Madrid, 28 de abril de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital Ramón y Cajal, Madrid, 7 de mayo de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital Arnau de Vilanova, Valencia, 16 de junio de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Servicio de Farmacia Hospital Clínico de Valladolid, 30 de junio de 2026</li>
+<li>Taller práctico sobre Inteligencia Artificial para profesionales sanitarios. Fundación Byotic. Albacete, 9 de julio de 2026</li>
+</ol></div>
+</details>
+<details class="cv-sub" id="publicaciones_en_revistas_dig">
+  <summary>
+    Publicaciones en revistas <span class="cv-count">(17)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ol class="cv-list cv-list-0">
+<li><strong>Monte E</strong>, Escrivá J, García Herrero MR. <em>Contribución de una base de datos a la organización de la sección de Farmacotecnia</em>. Farmacia Hospitalaria 1992; 16(S1):54-58.</li>
+<li>Fernández Lisón LC, Juárez Giménez JC, <strong>Monte Boquet E</strong>. Salud 2.0: nuevas herramientas de comunicación para el ejercicio profesional de la farmacia hospitalaria. Farm Hosp. 2012; 36(5):313-4 <a href="https://mega.nz/file/drtEybLJ#ssI8iumzJ9sFeu8SQJblJ_Zg8UHGLmf-IQ20rdBFp7s" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Juárez Giménez JC, Fernández Lisón LC, <strong>Monte Boquet E</strong>. Recomendaciones para el uso de las redes sociales para farmacéuticos de hospital (12 consejos que deberías tener en cuenta antes de lanzarte a la red). Farm Hosp 2014; 38(2):86-88 <a href="https://mega.nz/file/szEiWALa#VEeErzVIUSjyJZkhJUhzeWNGcUCIdgPQlOk96WFReFI" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Megías-Vericat JE, <strong>Monte-Boquet E</strong>, Martín-Cerezuela M, Cuéllar-Monreal MJ, Tarazona-Casany MV, Pérez-Huertas P, Bonanad S, Poveda JL. Pilot evaluation of home delivery program in haemophilia. J Clin Pharm Ther 2018 (Dec); 43(6):822-828 <a href="https://mega.nz/file/EuMCWDpS#irQAnYUEDy_WmnHooCS32bw4q2CBBbstRbQbvh7DpCA" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Montero Delgado JA, Merino Alonso FJ, <strong>Monte Boquet E</strong>, Ávila de Tomás JF, Cepeda Diez JM Competencias digitales clave de los profesionales sanitarios. Educ Med 2019; 21(5):338-44 <a href="https://doi.org/10.1016/j.edumed.2019.02.010" target="_blank" rel="noopener">https://doi.org/10.1016/j.edumed.2019.02.010</a> <a href="https://mega.nz/file/prtj3CaZ#SG3Ubaf6xWP7WsY_8-bvPxbfhG4n2BAFLuf4uD4BJI0" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Montero Delgado JA, <strong>Monte Boquet E</strong>, Martínez Sesmero JM. Hacia una farmacia hospitalaria digital (editorial). Rev OFIL-ILAPHAR 2020; 30(1):12-13 <a href="https://mega.nz/file/cmNRwJQS#Zdx8Z8yVzoXtGl06CmE5pkx4AUZaTsiEOQzn9eJ6Ysc" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Margusino-Framiñán L, Illarro-Uranga A, Lorenzo-Lorenzo K, <strong>Monte-Boquet E</strong>, Márquez-Saavedra E, Fernández-Bargiela N, et al. Atención farmacéutica al paciente externo durante la pandemia COVID-19. Telefarmacia. Farm Hosp. 2020;44(Supl 1):S61-5 <a href="https://mega.nz/file/EqVDxICY#1Q8L0BkI--1xzY_WPCvxgiy87m6wtxMev_1QFTBflSw" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Morillo-Verdugo R, Margusino-Framiñán L, <strong>Monte-Boquet E</strong>, Morell-Baladrón A, Barreda-Hernández D, Rey-Piñeiro XM, Negro-Vega E, Delgado-Sánchez O. Posicionamiento de la Sociedad Española de Farmacia Hospitalaria sobre Telefarmacia. Recomendaciones para su implantación y desarrollo. Farm Hosp. 2020;44(4):174-81 <a href="https://mega.nz/file/Fv1VkZCZ#8Erc7gTr0M-W5Ha7kpK4R_287UnSB17HNb2_YOQ4IEM" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li><strong>Monte-Boquet E</strong>, Margusino Framiñán L, Morillo Verdugo R. Transformación digital en atención farmacéutica a pacientes externos: ¿cómo hemos llegado hasta aquí? ¿Hacia dónde vamos? Editorial. Rev. OFIL·ILAPHAR 2022; 32(2):117-8 <a href="https://mega.nz/file/s70nGJRA#0NhCm61wnaUNuVIuYXj8tHwRHRRZkKscqCi2Yu3vv5o" target="_blank" rel="noopener">VER</a></li>
+<li>Margusino-Framiñán L, <strong>Monte-Boquet E</strong>. Telefarmacia: Utilidad, implantación e investigación. Farm Hosp. 2022;46(Supl 1):S1-2 <a href="https://mega.nz/file/M6lQgIhJ#eExVtJHr38nOV0rJ204Ws_vL2wbktpMpfy0CUshLW9I" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Sanmartín-Fenollera P, Mangues-Bafalluy I, Talens-Bolos A, Ibarra-Barrueta O, Villamañán-Bueno E, <strong>Monte-Boquet E</strong>, Morillo-Verdugo R, Margusino-Framiñán L. Cuadro de mando de Telefarmacia: Indicadores de actividad y calidad de la atención farmacéutica de un servicio de farmacia de hospital. Farm Hosp. 2022;46(Supl 1):S92-105 <a href="https://mega.nz/file/k6VAwaqY#SZxTTlhLPz8Dw1HU6O-BT3k3rQchAvZYR0fk10LmfCM" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li><strong>Monte-Boquet E</strong>, Hermenegildo-Caudevilla M, Vicente-Escrig E, Áreas-del Águila V, Barbadillo-Villanueva S, Gimeno-Gracia M, et al. Modelo de priorización de pacientes en Telefarmacia de la Sociedad Española de Farmacia Hospitalaria. Farm Hosp. 2022;46(Supl 1):S106-14 <a href="https://mega.nz/file/hvUlxYjL#o1sf8haW4uv0u5V5KoJiJtUQbGWXoLtsnT_xBPdqyhM" target="_blank" rel="noopener"><strong>VER</strong></a></li>
+<li>Hernández Marín CM, <strong>Monte-Boquet E</strong>, Poveda Andrés JL. Ciberseguridad, una prioridad de los servicios de farmacia en la era de la inteligencia artificial. Farm Hosp. 2024; 48(5):195-197. doi: 10.1016/j.farma.2024.08.001 <a href="https://mega.nz/file/pv0zXCTI#mBFOcNjTYcLpTrUkEApi3xJTg9nHbRjjt2HKGuWq4pY" target="_blank" rel="noopener">VER</a></li>
+<li>Mercadal-Orfila G, López Sánchez P, Pou Alonso A, Ibarra-Barrueta O, <strong>Monte-Boquet E</strong>, Borrás Blasco J, Padullés-Zamora N, Sanmartin-Fenollera P, Capilla Montes C, Bernabéu Martínez MA, Herrera-Pérez S. TelePROM Psoriasis: Enhancing Patient-Centered Care and patient reported outcomes measures follow-up in Moderate to Severe Plaque Psoriasis. Frontiers in Medicine, Volume 11 – 2024 November. DOI: 10.3389/fmed.2024.1465725 <a href="https://mega.nz/file/4r0UAZiC#baVU0CKD13id2npRcybpqCzPDnJuFopv5WsteW6KH9I" target="_blank" rel="noopener">VER</a></li>
+<li>Aguas Peris M, del Hoyo Francisco J, Nos Mateu P, Echarri Piudo A, Calvo M, Gros Alcalde B, Martín Arranz MD, <strong>Monte Boquet E</strong>, Inglán Agustín S, Valdivia Martínez A, Correcher M, Barreiro-de Acosta M, Mañosa Ciria M, Rodriguez-Moranta F, Zabana Y, Gutiérrez Casbas A. Documento de posicionamiento del Grupo Español de Trabajo en Enfermedad de Crohn y Colitis Ulcerosa sobre el uso de la Telemedicina en la Enfermedad Inflamatoria Intestinal. Gastroenterol Hepatol 2025 Jun-Jul;48(6):502320. doi: 10.1016/j.gastrohep.2024.502320.</li>
+<li>Montero Delgado JA, González Pérez Y, <strong>Monte Boquet E</strong>, Fernández Picó G. Competencias digitales clave en Inteligencia Artificial Generativa: Alfabetizarnos hoy para liderar la sanidad del mañana. Rev OFIL-ILAPHAR 2025; 35(6):582-91. DOI: http://dx.doi.org/10.4321/S1699-714X2025000600006</li>
+<li>Mercadal-Orfila G, López Sánchez P, Padullés-Zamora N, Pou Alonso A, Ibarra-Barrueta O, <strong>Monte-Boquet E</strong>, Borrás Blasco J, Sanmartin-Fenollera P, Capilla Montes C, Bernabéu Martínez MA, Notario Rosa J, Escrivá Sancho ME, Herrera-Pérez S. Telepharmacy follow-up using electronic patient-reported outcome measures in moderate-to-severe psoriasis. Farm Hosp. 2026; 26:S1130-6343(26)00009-7. doi: 10.1016/j.farma.2026.01.006. Epub ahead of print</li>
+</ol></div>
+</details>
+<details class="cv-sub" id="comunicaciones_a_congresos_dig">
+  <summary>
+    Comunicaciones a congresos <span class="cv-count">(21)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ol class="cv-list cv-list-0">
+<li><strong>Monte E</strong>, García Pellicer J, Monserrat V, Carrera A. <em>Contribución de una aplicación informática a la mejora de la adherencia al tratamiento antirretroviral en pacientes no hospitalizados</em>. VII Congreso Nacional de Informática Médica. Sociedad Española de Informática de la Salud (S.E.I.S.). Pamplona, 24 y 25 de septiembre de 1998.</li>
+<li><strong>Monte E</strong>, García Pellicer J, Monserrat V, Carrera A, Carmona P. <em>PDA: aplicación informática para la gestión de las dispensaciones a pacientes no hospitalizados</em>. Primer Congreso Nacional de Informática y Farmacia. Sociedad Española de Informática de la Salud (S.E.I.S.) / Consejo General de Colegios Oficiales de Farmacéuticos. Madrid, 21-23 de octubre de 1998.</li>
+<li><strong>Monte E</strong>, García Pellicer J. <em>FarHoWeb®. Portal temático de farmacia hospitalaria en CD-rom</em>. Inforsalud 2002, V Congreso Nacional de Informática de la Salud. Madrid, abril 2002.</li>
+<li>García Pellicer J, <strong>Monte Boquet E</strong>, Romá Sánchez E, Ferrer Albiach E<em>. Canales Off-Line. Nuevas posibilidades de comunicación a través de dispositivos móviles</em>. IX Congreso Nacional de Informática Médica INFORMED 2002. Valencia, noviembre de 2002.</li>
+<li><strong>Monte Boquet E</strong>, García Pellicer J, Esteban Mensua MJ, Tordera Baviera M, Ramón Albert A, Poveda Andrés JL. <em>Intranet: hacia la eficiencia en los sistemas de comunicación interna en el servicio de farmacia</em>. XLVIII Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria. Madrid, octubre 2003.</li>
+<li>Fernández Lisón LC, <strong>Monte Boquet E</strong>, Briegas Morera D, Calvo Araguete ME, Duran de los Santos AA, Pérez Puente P. Uso de internet y aplicaciones 2.0 en el ejercicio de la farmacia hospitalaria. 57 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria. Bilbao, 2-5 de octubre de 2012</li>
+<li><strong>Monte Boquet E</strong>, Cueto Sola M, Ruiz Ramos J, Lorente Fernández L, Gil Gómez I, Poveda Andrés JL. Análisis de actividad y contenidos de un blog desarrollado en una unidad de atención farmacéutica a pacientes externos. 58 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria. Málaga, 22-25 de octubre de 2013</li>
+<li>Edo Solsona MD, <strong>Monte Boquet E</strong>, Gil Gómez I, Lorente Fernández L, Poveda Andrés JL. Análisis de la adherencia a la hormona de crecimiento administrada con el dispositivo electrónico de autoinyección Easypod®. 60 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria. Valencia, 10-13 de noviembre de 2015. Comunicación <strong>seleccionada para su presentación como comunicación oral</strong> en las sesiones correspondientes a los grupos de trabajo</li>
+<li>Megías JE, <strong>Monte-Boquet E</strong>, Cuéllar-Monreal M, Gil-Gómez I, Tarazona-Casany M, Martín-Cerezuela M, Poveda-Andrés JL, Bonanad S. Home delivery program in haemophilia through an association of patients. Pan-EMEA Haematology Exchange Forum. Madrid, Spain. 27th-28th April 2016</li>
+<li>Megías JE, <strong>Monte-Boquet E</strong>, Pérez-Huertas P, Cuéllar-Monreal M, Tarazona-Casany M, Martín-Cerezuela M, Poveda-Andrés JL, Bonanad S. Experience of home delivery program in haemophilia through an association of patients. European Association for Haemophilia and Allied Disorders (EAHAD) 10th Annual Congress. Paris, 1-3 Febrero 2017</li>
+<li>Martín-Cerezuela M, Megías JE, <strong>Monte-Boquet E</strong>, Pérez-Huertas P, Cuéllar-Monreal M, Tarazona-Casany M, Poveda-Andrés JL, Bonanad S. Patient satisfaction of home delivery program in haemophilia through an association of patients. International Society on Thrombosis and Haemostasis (ISTH), Berlin 8-13 July 2017</li>
+<li><strong>Monte Boquet E</strong>, Pérez Huertas P, Cuéllar Monreal MJ, Tarazona Casany MV, Ribes Artero H, Solana Altabella A, Poveda Andrés JL. Evolución de la actividad e impacto de un blog divulgativo sobre temas de salud. 62 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria. Madrid, 18-21 de octubre de 2017</li>
+<li>Montero Delgado JA, De Pourcq JT, Gutiérrez Nicolás F, <strong>Monte Boquet E</strong>, Viña Romero MM, Mesa Expósito R, Hernández Rojas S, Merino Alonso FJ. Blogosfera farmacéutica hospitalaria: análisis cuantitativo y cualitativo. 62 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria. Madrid, 18-21 de octubre de 2017</li>
+<li>Megías JE, <strong>Monte-Boquet E</strong>, Vañó-Gisbert L, Pérez-Huertas P, Cuéllar-Monreal M, Tarazona-Casany M, Martín-Cerezuela M, Buitrago-Laguna VJ, Poveda-Andrés JL, Bonanad S. Collaborative model of home delivery program in haemophilia through an association of patients. WFH 2018 World Congress. Glasgow, may 2018</li>
+<li>Megías Vericat JE, Jiménez Somoano K, <strong>Monte Boquet E</strong>, Pérez Huertas P, Cuéllar Monreal MJ, Tarazona Casany MV, De la Puerta R, Poveda Andrés JL, Bonanad Boix S. Análisis de la utilización de aplicaciones móviles en pacientes con hemofilia tras dos años de seguimiento. LXI Congreso Nacional de la Sociedad Española de Hematología y Hemoterapia (SEHH) y XXXV Congreso Nacional de la Sociedad Española de Trombosis y Hemostasia. Valencia, 24-26 de octubre de 2019</li>
+<li><strong>Monte Boquet E</strong>, Cuéllar Monreal MJ, Palanques Pastor T, Tarazona Casany MV, García Robles A, Poveda Andrés JL Dispensación domiciliaria en tiempos de covid-19: descripción del proceso y análisis de resultados. 65 Congreso Nacional y I Congreso Virtual de la Sociedad Española de Farmacia Hospitalaria (SEFH), 20-22 de octubre de 2020</li>
+<li><strong>Monte Boquet E</strong>, García Robles A, Tarazona Casany MV, Cuéllar Monreal MJ, Palanques Pastor T, Poveda Andrés JL. Dispensación domiciliaria en tiempos de covid-19: satisfacción del paciente. 65 Congreso Nacional y I Congreso Virtual de la Sociedad Española de Farmacia Hospitalaria (SEFH), 20-22 de octubre de 2020</li>
+<li>Megías Vericat JE, Bonanad Boix S, Domenech Valls M, Palomero Massanet A, Rodríguez López M, Canaro Hirnyk M, Haya Guaita S, Cid Haro AR, <strong>Monte Boquet E</strong>, Bosch P, Poveda Andrés JL. Encuesta nacional de utilización de aplicaciones móviles en pacientes con hemofilia y otras coagulopatías (Comunicación oral). LXIII Congreso Nacional de la SEHH y el XXXVII Congreso Nacional de la SETH. Pamplona, 14-16 de octubre de 2021</li>
+<li>Cuéllar Monreal MJ, Tarazona Casany MV, García Robles A, Fernández Sánchez M, <strong>Monte Boquet E</strong>, Albiach Sánchez C, Poveda Andrés JL. Dispensación domiciliaria a pacientes con infección por VIH en pandemia por Coronavirus. 66 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH), 18-21 de octubre de 2021 (Virtual)</li>
+<li>García Robles A, Fernández Sánchez M, <strong>Monte Boquet E</strong>, Cuéllar Monreal MJ, Tarazona Casany MV, Vallés Gómez JM, Poveda Andrés JL. Dispensación a pacientes con fibrosis quística en servicios de farmacia, ¿un modelo a cambiar?. 66 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH), 18-21 de octubre de 2021 (Virtual)</li>
+<li>Megías Vericat JE, Bonanad Boix S, Domenech Valls M, Palomero Massanet A, Rodriguez Lopez M, Santandreu Estelrich MM, <strong>Monte Boquet E</strong>, Poveda Andrés JL. Encuesta nacional de utilización de aplicaciones móviles en pacientes con hemofilia A y B. 66 Congreso Nacional de la Sociedad Española de Farmacia Hospitalaria (SEFH), 18-21 de octubre de 2021 (Virtual)</li>
+</ol></div>
+</details>
+<details class="cv-sub" id="libros_dig">
+  <summary>
+    Libros <span class="cv-count">(4)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ul class="cv-list cv-list-0">
+<li>García Pellicer J, <strong>Monte Boquet E</strong>, Poveda Andrés JL. PDAs. Nuevas Tecnologías para la Práctica Asistencial en los Servicios de Farmacia. 2004. ISBN: 84-930565-1-0. Depósito Legal: M-38781-2004. Editor: Laboratorios Janssen-Cilag, S.A. Madrid, septiembre 2004.</li>
+<li>García Pellicer J, <strong>Monte Boquet E</strong>, Poveda Andrés JL. <em>Farmacia Hospitalaria y dispositivos móviles. 100 preguntas frecuentes (FAQ´s)</em>. 2005. ISBN: 84-689-3696-0. Depósito Legal: M-36562-2005. Esta publicación ha sido galardonada como una de Las <strong>Mejores Iniciativas de la Farmacia en el 2005 de CORREO FARMACÉUTICO.</strong></li>
+<li>García Pellicer J, Romá Sánchez E, Poveda Andrés JL, <strong>Monte Boquet E</strong>. Dispositivos móviles. Aplicaciones en la medicina basada en la evidencia. 2006. Madrid, Ergon. ISBN: 84-8473-504-4. Depósito Legal: M-34501-2006.</li>
+<li>Montero Delgado JA, <strong>Monte Boquet E</strong>, Cepeda Diez JM, Ávila de Tomás JF. Las seis competencias digitales de los profesionales sanitarios [internet]. Farmacia Hospitalaria Digital. 2019. [último acceso 30/01/2019]. Disponible en: <a href="https://www.farmaciahospitalariadigital.com/" target="_blank" rel="noopener">https://www.farmaciahospitalariadigital.com</a></li>
+</ul></div>
+</details>
+<details class="cv-sub" id="capítulos_de_libros_dig">
+  <summary>
+    Capítulos de libros <span class="cv-count">(4)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ul class="cv-list cv-list-0">
+<li>Fernández Lisón LC, <strong>Monte E</strong>, Juárez JC. <em>Salud 2.0: un nuevo reto para la farmacia hospitalaria</em>. En: Monografías de Farmacia Hospitalaria: “Nuevos horizontes profesionales”. 2014, Nº1. Sociedad Española de Farmacia Hospitalaria. Edita: Bayer Hispania SL. ISBN: 978 84 695 9995 2. Depósito legal: B 8147-2014</li>
+<li><strong>Monte Boquet E</strong> es co-autor de: <em>Informe La contribución de las TIC en la optimización del sistema de salud y la atención al paciente emergente</em>. Edita: Grupo Menarini España. 2015. Dirección: Alfons XII 587. E-08918 Badalona. Licencia Creative Commons. Disponible en: https://www.menarini.es/images/comunicacion/contic/informecontic.pdf</li>
+<li><strong>Monte Boquet E</strong>. <em>Proyecto formativo sobre farmacoterapia para ciudadanos y pacientes en Twitter</em>. En: Utilización de nuevas tecnologías aplicadas a la salud. Azucena Santillán García, Jose María Cepeda Díez, Alfonso Meneses Monroy, Esther García García y Carlos Valdespina Aguilar (coordinadores). 2017. Leioa, Bizkaia. Salusplay editorial. ISBN: 978-84-16861-39-2. Depósito Legal: BI-1277-2017</li>
+<li>Pérez Huertas P, <strong>Monte Boquet E</strong>, Poveda Andrés JL. <em>Aplicaciones de salud para pacientes: metodología de evaluación y validación</em>. En: Monografías de Farmacia Hospitalaria y de Atención Primaria: “Innovación en procesos (nº7)”. 2017, Sociedad Española de Farmacia Hospitalaria. Edita: Bayer Hispania SL. ISBN: 978 84 697 2369 2. Depósito legal: B 10159-2017</li>
+</ul></div>
+</details>
+<details class="cv-sub" id="participación_en_estudios_de_investigación_dig">
+  <summary>
+    Participación en estudios de investigación <span class="cv-count">(4)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><p class="cv-p">Título: Estudio HERMES (“Mejora de la adherencia del tratamiento antirretroviral con la implicación de las nuevas tecnologías</p>
+<p class="cv-p">Entidad financiadora: Abbot</p>
+<p class="cv-p">Duración desde-hasta: Octubre 2003 – Abril 2005</p>
+<p class="cv-p">Investigador principal:</p>
+<p class="cv-p">Título: Farmacoterapia 2.0: diseño, implementación y seguimiento de un programa sobre farmacoterapia dirigido al paciente, sus cuidadores y a la población general mediante herramientas 2.0</p>
+<p class="cv-p">Entidad financiadora: . Instituto de Investigación Sanitaria La Fe. Valencia</p>
+<p class="cv-p">Duración desde-hasta: 2015 (en marcha)</p>
+<p class="cv-p">Investigador principal: José Luis Poveda Andrés</p>
+<p class="cv-p">Título: Evaluación de la usabilidad de una aplicación móvil en pacientes diagnosticados de mieloma múltiple</p>
+<p class="cv-p">Entidad financiadora: Sociedad Española de Farmacia Hospitalaria (SEFH).</p>
+<p class="cv-p">Duración desde-hasta: 2017</p>
+<p class="cv-p">Investigador principal: Emilio Monte Boquet, Ramón Morillo Verdugo, José Manuel Martínez Sesmero</p>
+<p class="cv-p">Título: Estudio Multicéntrico Observacional No Posautorización &quot;ENCUESTA DE OPINIÓN Y EXPERIENCIA DE LOS PACIENTES EXTERNOS ATENDIDOS EN LOS SERVICIOS DE FARMACIA HOSPITALARIA EN ESPAÑA SOBRE LA TELEFARMACIA DURANTE LA PANDEMIA POR LA COVID-19&quot;</p>
+<p class="cv-p">Entidad financiadora: Sociedad Española de Farmacia Hospitalaria</p>
+<p class="cv-p">Duración desde-hasta: 2020-2021</p>
+<p class="cv-p">Investigador principal: Ramón Morillo Verdugo</p></div></div>
+</details>
+<details class="cv-sub" id="dirección_o_coordinación_de_cursos_o_jornadas_dig">
+  <summary>
+    Dirección o coordinación de cursos <span class="cv-count">(1)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ul class="cv-list cv-list-0">
+<li><strong>Coordinador y profesor en el “<em>I Curso Virtual de Manejo y Aplicaciones de Dispositivos Móviles en Farmacia Hospitalaria</strong></em>”. Organizado por la Asociación para la Investigación, Desarrollo e Innovación en Farmacia Hospitalaria (AIDIFH). Horas lectivas: 50 h. Octubre 2006 a junio 2007.</li>
+</ul></div>
+</details>
+<details class="cv-sub" id="otros_dig">
+  <summary>
+    Otros méritos <span class="cv-count">(12)</span>
+    <span class="cv-chevron">▼</span>
+  </summary>
+  <div class="cv-sub-body"><ul class="cv-list cv-list-0">
+<li><strong>Coordinador de la página web de la Unidad de Atención Farmacéutica a Pacientes Externos (UFPE)</strong> del Servicio de Farmacia del Hospital La Fe (http://www.ufpelafe.com)</li>
+<li><strong>Coordinador del blog de la Unidad de Atención Farmacéutica a Pacientes Externos (UFPE)</strong> del Servicio de Farmacia del Hospital La Fe (https://ufpelafe.blogspot.com/)</li>
+<li><strong>Coordinador de la Intranet</strong> del Servicio de Farmacia del Hospital La Fe <strong>(FarmaWeb)</strong></li>
+<li>Premio “<em>Farmacia Hospitalaria y dispositivos móviles. 100 preguntas frecuentes (FAQ´s)”, de</em> García Pellicer J, <strong>Monte Boquet E</strong>, Poveda Andrés JL como una de Las <strong>Mejores Iniciativas de la Farmacia en el 2005 de CORREO FARMACÉUTICO</strong> en el apartado de FORMACIÓN.</li>
+<li>Premio “<em>Farmamobile”, de</em> García Pellicer J, <strong>Monte Boquet E</strong>, Poveda Andrés JL como una de Las <strong>Mejores Iniciativas de la Farmacia en el 2006 de CORREO FARMACÉUTICO</strong> en el apartado de FORMACIÓN.</li>
+<li>Premio “<em>eUFPE</em>”, Monte Boquet E, Poveda Andrés JL como una de <strong>Las Mejores Iniciativas de la Farmacia en el 2011 de CORREO FARMACÉUTICO</strong> en el apartado de GESTIÓN.</li>
+<li>Premio en la V edición de <strong>Los Favoritos en la Red</strong> 2012 para la “<em>Web UFPE Hospital La Fe</em>”, de Monte Boquet E, en la categoría farmacéuticos a los mejores hospitales, asociaciones y fundaciones. DIARIO MÉDICO, CORREO FARMACÉUTICO, DMEDICA.</li>
+<li>Premio “<em>Gestión telemática de la medicación</em>”, Monte Boquet E, Poveda Andrés JL como una de <strong>Las Mejores Iniciativas de la Farmacia en el 2014 de CORREO FARMACÉUTICO</strong> en el apartado de GESTIÓN.</li>
+<li>Artículo: “<strong>Las Tecnologías de la Información en Farmacia Hospitalaria</strong>”. Novatica (Revista de la Asociación de Técnicos de Informática) nº 239: Salud y Tecnología (monografía). Enero-marzo 2018. ISSN: 2444-6629 (<a href="http://www.novatica.es/las-tecnologias-de-la-informacion-en-farmacia-hospitalaria/" target="_blank" rel="noopener">http://www.novatica.es/las-tecnologias-de-la-informacion-en-farmacia-hospitalaria/</a>)</li>
+<li><strong>eDruida</strong>: iniciativa para el empoderamiento y la formación de ciudadanos y pacientes en el manejo de medicamentos y farmacoterapia. Reconocimiento como buena práctica en el Sistema Valenciano de Salud durante el año 2017</li>
+<li><strong>eDruida</strong>: iniciativa para el empoderamiento y la formación de ciudadanos y pacientes en el manejo de medicamentos y farmacoterapia. Finalista como mejor proyecto de adherencia al tratamiento en Farmacia Hospitalaria. Fundación para la Adherencia al Tratamiento durante el año 2017</li>
+<li><strong>Estrategia UFPE 2.0</strong>. Primer premio Vifor Farma #ReConocidos en la categoría de Profesionales Sanitarios. 2021</li>
+</ul></div>
+</details>
+  </div>
+</div>
+</div>
+
+<div class="modal-overlay hidden" id="modal" onclick="if(event.target===this) toggleModal(false)">
+  <div class="modal-box">
+    <h2>💻 CV Salud Digital — Emilio Monte Boquet</h2>
+    <p>Versión centrada exclusivamente en méritos de tecnología y salud digital, generada automáticamente a partir del CV general (elementos marcados con la clase «dig»).</p>
+    <p>Las secciones con listados extensos (ponencias, publicaciones, comunicaciones…) están <strong>colapsadas por defecto</strong>. Haz clic en cada encabezado para expandirlas.</p>
+    <div class="modal-footer">
+      <span>Creado por <a href="https://www.linkedin.com/in/emilio-monte-boquet" target="_blank" rel="noopener">EMB</a></span>
+      <button class="btn-close" onclick="toggleModal(false)">Cerrar</button>
+    </div>
+  </div>
+</div>
+
+<script>
+const LAST_UPDATED = '10 jul 2026';
+
+/* ── Header date ── */
+document.getElementById('last-updated').textContent = 'Actualizado: ' + LAST_UPDATED;
+document.getElementById('print-date').textContent = 'Última actualización: ' + LAST_UPDATED;
+
+/* ── Modal ── */
+function toggleModal(show) {
+  document.getElementById('modal').classList.toggle('hidden', !show);
+}
+document.addEventListener('keydown', e => { if (e.key === 'Escape') toggleModal(false); });
+
+/* ── Collapsible main sections ── */
+document.querySelectorAll('.cv-section-hdr').forEach(hdr => {
+  const sec = hdr.closest('.cv-section');
+  sec.classList.add('collapsed');
+  hdr.addEventListener('click', () => sec.classList.toggle('collapsed'));
+});
+
+/* ── Collapsible "Otros" subsection (div.cv-sub-open) ── */
+document.querySelectorAll('.cv-sub-open-hdr').forEach(hdr => {
+  const sub = hdr.closest('.cv-sub-open');
+  const body = sub.querySelector('.cv-sub-open-body');
+  if (body) {
+    body.style.display = 'none';
+    hdr.addEventListener('click', () => {
+      const open = body.style.display !== 'none';
+      body.style.display = open ? 'none' : '';
+    });
+  }
+});
+
+/* ── "Ir a inicio" buttons ── */
+document.querySelectorAll('.cv-section-body').forEach(body => {
+  const btn = document.createElement('button');
+  btn.className = 'btn-top';
+  btn.textContent = '↑ Ir a inicio';
+  btn.addEventListener('click', () => window.scrollTo({top: 0, behavior: 'smooth'}));
+  body.appendChild(btn);
+});
+
+/* ── Scroll to section (expands if collapsed) ── */
+function scrollToSec(id) {
+  const el = document.getElementById(id);
+  if (!el) return;
+  el.classList.remove('collapsed');
+  setTimeout(() => el.scrollIntoView({behavior: 'smooth', block: 'start'}), 50);
+}
+
+/* ── Generar PDF ── */
+function printCV() {
+  document.querySelectorAll('.cv-section').forEach(s => s.classList.remove('collapsed'));
+  document.querySelectorAll('details.cv-sub').forEach(d => d.setAttribute('open', ''));
+  document.querySelectorAll('.cv-sub-open-body').forEach(b => b.style.removeProperty('display'));
+
+  setTimeout(() => {
+    window.print();
+    window.addEventListener('afterprint', function restore() {
+      document.querySelectorAll('.cv-section').forEach(s => s.classList.add('collapsed'));
+      document.querySelectorAll('details.cv-sub').forEach(d => d.removeAttribute('open'));
+      document.querySelectorAll('.cv-sub-open-body').forEach(b => b.style.display = 'none');
+    }, { once: true });
+  }, 150);
+}
+</script>
+</body>
+</html>
